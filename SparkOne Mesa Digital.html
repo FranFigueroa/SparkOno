@@ -1,0 +1,1109 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>SparkOne Mesa Digital</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: mesa de 3 columnas (fichas | centro + mercado | acciones + registro); en celular todo apilado */
+:root{
+ --font-d:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+ --font-b:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+ --bg:#eef3ee; --bg2:#e2eae3; --surface:#ffffff; --surface2:#f4f8f4; --card:#ffffff;
+ --ink:#0e2a21; --ink2:#496157; --line:#cfdbd2; --line2:#b8c8bd;
+ --brand:#0a6a4f; --brand-d:#064734; --brand-soft:#d7efe5; --on-brand:#ffffff;
+ --chispa:#f5b800; --chispa-ink:#5c4000; --chispa-soft:#fff2c2;
+ --admin:#2563eb; --gain:#12984a; --gain-soft:#d9f4e3; --gold:#d99a0b; --coral:#e0454b; --coral-soft:#fde4e4;
+ --c-pers:#7c5ce6; --c-pres:#2563eb; --c-meta:#243b55; --c-spark:#f5c518; --c-sit:#0f9d6e; --c-alt:#e0454b; --c-db:#0b9ab8; --c-ev:#56677a; --c-op:#d99a0b;
+ --shadow:0 1px 2px rgba(10,40,30,.08),0 10px 24px -14px rgba(10,40,30,.35);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#07140f; --bg2:#0b1d16; --surface:#0f221b; --surface2:#143027; --card:#12281f;
+ --ink:#e6f3ea; --ink2:#9db7a9; --line:#24433a; --line2:#30584c;
+ --brand:#34d399; --brand-d:#6ee7b7; --brand-soft:#123a2d; --on-brand:#042018;
+ --chispa-ink:#ffe08a; --chispa-soft:#3a3006; --gain:#3ddc84; --gain-soft:#10341f; --coral:#ff6b70; --coral-soft:#3b1519; --admin:#6f9bff;
+ color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#07140f; --bg2:#0b1d16; --surface:#0f221b; --surface2:#143027; --card:#12281f;
+ --ink:#e6f3ea; --ink2:#9db7a9; --line:#24433a; --line2:#30584c;
+ --brand:#34d399; --brand-d:#6ee7b7; --brand-soft:#123a2d; --on-brand:#042018;
+ --chispa-ink:#ffe08a; --chispa-soft:#3a3006; --gain:#3ddc84; --gain-soft:#10341f; --coral:#ff6b70; --coral-soft:#3b1519; --admin:#6f9bff;
+ color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:14px;line-height:1.45;padding-block:12px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--chispa);outline-offset:2px}
+.wrap{max-width:1560px;margin:0 auto}
+h1,h2,h3,h4{font-family:var(--font-d);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.nums,.m-big,.chp,dd{font-variant-numeric:tabular-nums}
+.bolt{width:1em;height:1em;fill:var(--chispa);vertical-align:-.12em;flex:none}
+
+/* header */
+.hdr{background:var(--brand-d);color:#eafff5;border-radius:16px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px 20px;align-items:center;margin-bottom:12px}
+:root[data-theme="dark"] .hdr{background:#0b2d22}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hdr{background:#0b2d22}}
+.logo{display:flex;align-items:center;gap:10px}
+.logo .mark{width:38px;height:38px;border-radius:11px;background:var(--chispa);display:grid;place-items:center;color:#4a3400;font-size:22px}
+.logo .mark svg{fill:#4a3400;width:22px;height:22px}
+.logo b{font-family:var(--font-d);font-size:1.55rem;letter-spacing:-.02em;line-height:1}
+.logo small{display:block;font-size:.72rem;opacity:.8;margin-top:2px}
+.rnd{display:flex;flex-direction:column;gap:8px;min-width:0}
+.rnd-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mes{font-family:var(--font-d);font-weight:800;letter-spacing:.06em;background:var(--chispa);color:#3f2d00;border-radius:999px;padding:4px 14px;font-size:.9rem}
+.start{font-size:.82rem;opacity:.85}
+.stepper{display:flex;gap:4px;flex-wrap:wrap}
+.stp{font-size:.72rem;padding:3px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.22);opacity:.65;white-space:nowrap}
+.stp.done{opacity:.9;background:rgba(255,255,255,.12)}
+.stp.cur{opacity:1;background:var(--chispa);color:#3f2d00;border-color:var(--chispa);font-weight:700}
+.ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.ctl label{font-size:.72rem;opacity:.85;display:flex;flex-direction:column;gap:2px}
+.ctl select{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:5px 8px;font:inherit}
+.ctl select option{color:#111;background:#fff}
+.btn{border:1.5px solid var(--line2);background:var(--surface);border-radius:10px;padding:8px 14px;font-weight:700;transition:transform .1s,background .15s}
+.btn:hover:not(:disabled){transform:translateY(-1px);border-color:var(--brand)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.btn.gold{background:var(--chispa);border-color:var(--chispa);color:#3f2d00}
+.btn.ghost{background:transparent}
+.btn.sm{padding:4px 9px;font-size:.78rem;border-radius:8px}
+.hdr .btn{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
+.hdr .btn.on{background:var(--chispa);color:#3f2d00;border-color:var(--chispa)}
+
+/* grid */
+.app{display:grid;grid-template-columns:minmax(300px,350px) minmax(0,1fr) minmax(280px,330px);grid-template-areas:"players center side" "players market side";gap:12px;align-items:start}
+#players{grid-area:players;display:flex;flex-direction:column;gap:10px;min-width:0}
+#center{grid-area:center;min-width:0}
+#market{grid-area:market;min-width:0}
+.side{grid-area:side;display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (max-width:1100px){.app{display:flex;flex-direction:column}.side{display:contents}#center{order:1}#actions{order:2}#market{order:3}#players{order:4}#log{order:5}#notes{order:6}.hdr{grid-template-columns:1fr}.ctl{justify-content:flex-start}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);min-width:0}
+.panel>h2{font-size:1.05rem;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.table{background:radial-gradient(120% 90% at 50% 0%,var(--brand-soft),transparent 70%),var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);min-height:200px}
+.stage-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.stage-h h2{font-size:1.35rem}
+.lede{color:var(--ink2);margin:0 0 10px;max-width:68ch}
+
+/* fichas */
+.pl{position:relative;background:var(--surface);border:1.5px solid var(--line);border-left:6px solid var(--pc);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:7px;box-shadow:var(--shadow)}
+.pl.active{border-color:var(--pc);box-shadow:0 0 0 3px color-mix(in srgb,var(--pc) 28%,transparent),var(--shadow)}
+.pl-h{display:flex;align-items:center;gap:8px}
+.av{width:30px;height:30px;border-radius:50%;background:var(--pc);color:#fff;display:grid;place-items:center;font-family:var(--font-d);font-weight:800;flex:none}
+.pl-h b{font-family:var(--font-d);font-size:1.1rem}
+.stt{font-size:.7rem;font-weight:700;border-radius:999px;padding:2px 8px;background:var(--surface2);color:var(--ink2);border:1px solid var(--line)}
+.stt.on{background:var(--pc);border-color:var(--pc);color:#fff}
+.chp{margin-left:auto;display:flex;align-items:center;gap:4px;background:var(--chispa-soft);color:var(--chispa-ink);font-weight:800;border-radius:999px;padding:3px 10px;font-size:1rem;border:1px solid color-mix(in srgb,var(--chispa) 55%,transparent)}
+.pl-pers{display:flex;gap:6px;align-items:center;font-size:.82rem;color:var(--ink2);flex-wrap:wrap}
+.lnk{background:none;border:0;color:var(--brand);font-weight:700;text-decoration:underline;padding:0;font-size:.78rem}
+.pl-money{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.m-big{font-family:var(--font-d);font-weight:800;font-size:1.65rem;color:var(--ink);line-height:1}
+.m-sub{font-size:.76rem;color:var(--ink2)}
+.m-sub .g{color:var(--gain);font-weight:700}.m-sub .r{color:var(--coral);font-weight:700}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font-size:.72rem;font-weight:700;border-radius:8px;padding:2px 8px;background:var(--surface2);border:1px solid var(--line);color:var(--ink2)}
+.chip.debt{background:var(--coral-soft);border-color:var(--coral);color:var(--coral)}
+.chip.blue{background:color-mix(in srgb,var(--admin) 14%,transparent);border-color:var(--admin);color:var(--admin)}
+.chip.ok{background:var(--gain-soft);border-color:var(--gain);color:var(--gain)}
+.pl-meta{font-size:.8rem;background:var(--surface2);border:1px dashed var(--line2);border-radius:10px;padding:6px 9px}
+.pl-meta b{display:block}
+.bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:5px}
+.bar i{display:block;height:100%;background:var(--gain);border-radius:99px;transition:width .4s}
+.pl-spark{display:flex;gap:8px;align-items:center;background:#0b2a20;color:#f4fbe6;border-radius:10px;padding:7px 9px;border:1.5px solid var(--c-spark);font-size:.8rem}
+.pl-spark.empty{background:var(--surface2);color:var(--ink2);border:1px dashed var(--line2)}
+.pl-spark .t{flex:1;min-width:0}
+.pl-spark .t b{display:block;font-family:var(--font-d)}
+.pl-spark .t small{opacity:.8;display:block}
+.pl-spark .btn{background:var(--c-spark);border-color:var(--c-spark);color:#3f2d00}
+.pl-spark .btn:disabled{background:transparent;color:#cfe;border-color:rgba(255,255,255,.3)}
+.ops{display:flex;gap:5px;flex-wrap:wrap}
+.opchip{font-size:.72rem;border-radius:8px;padding:3px 8px;border:1.5px solid var(--c-op);background:color-mix(in srgb,var(--c-op) 14%,transparent);font-weight:700}
+.opchip.done{border-style:dashed;opacity:.6;font-weight:500;text-decoration:none}
+.opchip i{font-style:normal;font-weight:500;color:var(--ink2);margin-left:3px}
+.fx{position:absolute;right:12px;top:42px;font-family:var(--font-d);font-weight:800;font-size:1.25rem;pointer-events:none;animation:fxup 1.9s ease-out forwards;text-shadow:0 1px 0 var(--surface)}
+.fx.up{color:var(--gain)}.fx.down{color:var(--coral)}.fx.spk{color:var(--gold)}
+@keyframes fxup{0%{opacity:0;transform:translateY(10px) scale(.8)}15%{opacity:1;transform:translateY(0) scale(1.1)}100%{opacity:0;transform:translateY(-34px)}}
+
+/* cards */
+.card{--cc:var(--c-sit);background:var(--card);border:1.5px solid var(--cc);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0;box-shadow:var(--shadow);position:relative}
+.card-top{background:var(--cc);color:#fff;padding:5px 10px;display:flex;justify-content:space-between;gap:8px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800}
+.card h3{font-size:1.1rem;padding:10px 12px 2px;line-height:1.15}
+.card-body{padding:4px 12px 10px;color:var(--ink2);font-size:.88rem;display:flex;flex-direction:column;gap:6px}
+.card-body p{margin:0;color:var(--ink)}
+.card-foot{padding:8px 12px;border-top:1px dashed var(--line2);font-size:.76rem;color:var(--ink2);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.card .ico{font-size:1.2em}
+.c-pers{--cc:var(--c-pers)}.c-pres{--cc:var(--c-pres)}.c-meta{--cc:var(--c-meta)}.c-sit{--cc:var(--c-sit)}.c-alt{--cc:var(--c-alt)}.c-db{--cc:var(--c-db)}.c-ev{--cc:var(--c-ev);border-style:dashed}.c-op{--cc:var(--c-op)}
+.c-meta .card-top{color:var(--c-spark)}
+.c-spark{--cc:var(--c-spark);background:#0b2a20;color:#f4fbe6}
+.c-spark .card-top{color:#3f2d00}
+.c-spark .card-body,.c-spark .card-body p,.c-spark .card-foot{color:#e2f2d8}
+.c-spark .card-foot{border-color:rgba(255,255,255,.2)}
+.tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;border-radius:6px;padding:2px 7px;background:var(--surface2);color:var(--ink2);border:1px solid var(--line)}
+.c-spark .tag{background:rgba(245,197,24,.18);color:#ffe27a;border-color:rgba(245,197,24,.5)}
+.tag.Interferencia{background:var(--coral-soft);color:var(--coral);border-color:var(--coral)}
+.tag.Ganar{background:var(--gain-soft);color:var(--gain);border-color:var(--gain)}
+.tag.Crecer{background:var(--chispa-soft);color:var(--chispa-ink);border-color:var(--chispa)}
+.tag.Administrar{background:color-mix(in srgb,var(--admin) 14%,transparent);color:var(--admin);border-color:var(--admin)}
+.tag.Proteger{background:var(--coral-soft);color:var(--coral);border-color:var(--coral)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0}
+.stats div{background:var(--surface2);border-radius:8px;padding:5px 7px;min-width:0}
+.stats dt{font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.stats dd{margin:0;font-family:var(--font-d);font-weight:800;font-size:.98rem;color:var(--ink)}
+.back{background:repeating-linear-gradient(45deg,#0b2a20 0 10px,#0f3a2c 10px 20px);border:1.5px solid var(--c-spark);color:var(--c-spark);border-radius:12px;display:grid;place-items:center;text-align:center;padding:10px;font-family:var(--font-d);font-weight:800;min-height:90px}
+.back small{display:block;font-family:var(--font-b);font-weight:500;color:#cfe;font-size:.7rem}
+.back .bolt{font-size:1.6rem}
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.center-card{max-width:620px;margin:0 auto}
+.pop{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{opacity:0;transform:scale(.85) rotateX(40deg)}to{opacity:1;transform:none}}
+.deal{animation:pop .5s both}
+
+/* Q&A */
+.opts{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;background:var(--surface);border:1.5px solid var(--line2);border-radius:11px;padding:9px 11px;color:var(--ink);transition:border-color .15s,background .15s,transform .1s}
+.opt b{font-family:var(--font-d);background:var(--surface2);border-radius:7px;min-width:26px;height:26px;display:grid;place-items:center;flex:none}
+.opt:hover:not(:disabled){border-color:var(--brand);transform:translateX(2px)}
+.opt.sel{border-color:var(--brand);background:var(--brand-soft)}
+.opt.sel b,.opt.locked b{background:var(--brand);color:var(--on-brand)}
+.opt.locked{border-color:var(--brand);background:var(--brand-soft)}
+.opt.right{border-color:var(--gain);background:var(--gain-soft)}.opt.right b{background:var(--gain);color:#fff}
+.opt.wrong{border-color:var(--coral);background:var(--coral-soft)}.opt.wrong b{background:var(--coral);color:#fff}
+.opt.elim span{text-decoration:line-through;opacity:.55}
+.opt.prev{opacity:.5}
+.opt:disabled{cursor:default;color:var(--ink)}
+.hint{background:var(--chispa-soft);color:var(--chispa-ink);border:1px solid var(--chispa);border-radius:10px;padding:7px 10px;margin-top:8px;font-size:.84rem}
+.result{border-radius:12px;padding:10px 12px;margin-top:10px;border:1.5px solid}
+.result.ok{background:var(--gain-soft);border-color:var(--gain)}
+.result.bad{background:var(--coral-soft);border-color:var(--coral)}
+.result b{font-family:var(--font-d);font-size:1.05rem}
+.result p{margin:4px 0 0}
+.tl{display:flex;gap:10px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.light{width:84px;height:84px;border-radius:50%;border:4px solid var(--line2);font-family:var(--font-d);font-weight:800;color:#fff;display:grid;place-items:center;transition:transform .12s;font-size:.9rem;box-shadow:inset 0 -6px 12px rgba(0,0,0,.2)}
+.light:hover:not(:disabled){transform:scale(1.07)}
+.light:disabled{opacity:.5;cursor:default}
+.light.verde{background:#16a34a}.light.amarillo{background:#eab308;color:#3b2f00}.light.rojo{background:#e11d2e}
+.light.big{width:56px;height:56px;border-width:3px;font-size:.7rem}
+.voters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.vt{font-size:.78rem;border-radius:999px;padding:3px 10px;border:1px solid var(--line2);background:var(--surface2)}
+.vt.y{background:var(--brand-soft);border-color:var(--brand)}
+.vt.ok{background:var(--gain-soft);border-color:var(--gain)}.vt.no{background:var(--coral-soft);border-color:var(--coral)}
+.post{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:1.02rem;color:var(--ink);}
+.post small{display:block;color:var(--ink2);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+
+/* tablas de resumen */
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.sbox{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--pc);border-radius:12px;padding:9px 11px;min-width:0}
+.sbox h4{font-size:1rem;display:flex;justify-content:space-between;gap:6px}
+.sbox ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:3px;font-size:.8rem}
+.sbox li{display:flex;justify-content:space-between;gap:8px}
+.sbox li span:first-child{color:var(--ink2);min-width:0}
+.sbox li.g span:last-child{color:var(--gain);font-weight:700}.sbox li.r span:last-child{color:var(--coral);font-weight:700}.sbox li.s span:last-child{color:var(--chispa-ink);font-weight:700}
+.sbox .tot{border-top:1px dashed var(--line2);margin-top:6px;padding-top:5px;font-weight:700;display:flex;justify-content:space-between}
+.warn{color:var(--coral);font-weight:700}
+
+/* mercado */
+.mk{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.mk .card{height:100%}
+.mk .card.sold{opacity:.5;filter:grayscale(.6);border-style:dotted}
+.mk .card.rsv{box-shadow:0 0 0 3px color-mix(in srgb,var(--c-pers) 40%,transparent)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;font-size:.78rem}
+.kv dt{color:var(--ink2)}.kv dd{margin:0;color:var(--ink);font-weight:500}
+.price{font-family:var(--font-d);font-weight:800;font-size:1.15rem;color:var(--ink)}
+.stamp{font-weight:800;font-size:.8rem;text-align:center;border:2px solid var(--ink2);border-radius:8px;padding:4px;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em}
+.q{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;font-size:.8rem;align-items:center}
+.q .vt.cur{background:var(--brand);color:var(--on-brand);border-color:var(--brand);font-weight:700}
+
+/* acciones y registro */
+.act-btns{display:flex;flex-direction:column;gap:8px}
+.act-btns .btn{width:100%;text-align:center}
+.help{font-size:.82rem;color:var(--ink2);margin:0 0 10px}
+.log{list-style:none;margin:0;padding:0;max-height:340px;overflow:auto;display:flex;flex-direction:column;gap:5px}
+.log li{display:grid;grid-template-columns:8px 1fr;gap:8px;font-size:.8rem;align-items:start}
+.log li::before{content:"";width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--line2)}
+.log li.gain::before{background:var(--gain)}.log li.loss::before,.log li.debt::before{background:var(--coral)}.log li.spark::before{background:var(--chispa)}.log li.play::before{background:var(--c-pers)}.log li.event::before{background:var(--c-ev)}
+.log small{color:var(--ink2);font-weight:700;margin-right:4px}
+details.panel summary{cursor:pointer;font-family:var(--font-d);font-weight:700}
+details.panel ul{margin:8px 0 0;padding-left:18px;font-size:.82rem;color:var(--ink2);display:flex;flex-direction:column;gap:4px}
+
+/* modal + toast */
+.ov{position:fixed;inset:0;background:rgba(3,15,10,.62);display:grid;place-items:center;z-index:50;padding:16px;overflow:auto}
+.mod{background:var(--surface);border:1px solid var(--line2);border-radius:18px;max-width:560px;width:100%;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto;animation:pop .35s both}
+.mod.wide{max-width:900px}
+.mod h3{font-size:1.2rem}
+.mod .btns{display:flex;flex-direction:column;gap:7px}
+.mod .btns.row{flex-direction:row;flex-wrap:wrap}
+.mod select{width:100%;padding:7px;border-radius:8px;border:1px solid var(--line2);background:var(--surface);color:var(--ink);font:inherit}
+.mod label{font-size:.8rem;font-weight:700;display:flex;flex-direction:column;gap:3px}
+.sparkplay{text-align:center}
+.sparkplay .card{max-width:300px;margin:0 auto;animation:flip .8s both}
+@keyframes flip{from{transform:rotateY(90deg) scale(.7);opacity:0}to{transform:none;opacity:1}}
+.toast{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;z-index:60;font-weight:700;max-width:90vw;text-align:center;animation:pop .25s both}
+.podium{display:grid;gap:8px}
+.rank{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--pc);border-radius:12px;padding:10px 12px}
+.rank.first{background:var(--chispa-soft);border-color:var(--chispa)}
+.rank .pos{font-family:var(--font-d);font-weight:800;font-size:1.6rem;text-align:center}
+.rank small{color:var(--ink2);display:block}
+.big-c{font-family:var(--font-d);font-weight:800;font-size:1.7rem;display:flex;align-items:center;gap:5px}
+.dec{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:5px;font-size:.86rem}
+.dec li{background:var(--surface2);border-radius:9px;padding:6px 10px;border:1px solid var(--line)}
+.dec b{color:var(--brand)}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+<div class="wrap">
+ <header class="hdr" id="hdr"></header>
+ <main class="app">
+  <section id="players" aria-label="Jugadores"></section>
+  <section id="center" aria-live="polite"></section>
+  <section id="market"></section>
+  <div class="side"><section class="panel" id="actions"></section><section class="panel" id="log"></section></div>
+ </main>
+</div>
+<div id="modal"></div><div id="toast"></div>
+<script>
+/* ===== DATOS: cartas del kit SparkOne (81 cartas; pistas = propuesta nueva, no están en el kit) ===== */
+const PERS=[
+ {id:'PERS-01',key:'org',icon:'🗂️',nombre:'La persona organizada',texto:'Una vez por ronda, si acertás una Situación sobre administración o ahorro, ganás 1 Chispa adicional.'},
+ {id:'PERS-02',key:'emp',icon:'🚀',nombre:'La persona emprendedora',texto:'Una vez por ronda, podés mirar las dos primeras Oportunidades del mazo y elegir cuál poner en el mercado. La otra va al fondo del mazo.'},
+ {id:'PERS-03',key:'con',icon:'📡',nombre:'La persona conectada',texto:'Una vez por ronda, pedí una pista en una Alerta antes de votar. El lector debe compartir la pista impresa, si existe.'},
+ {id:'PERS-04',key:'aho',icon:'🐷',nombre:'La persona ahorradora',texto:'Una vez por ronda, si no comprás una Oportunidad durante el mercado, ganás 1 Chispa.'},
+ {id:'PERS-05',key:'ana',icon:'🔍',nombre:'La persona analítica',texto:'Una vez por ronda, después de escuchar la explicación de una Situación, podés explicar con tus palabras por qué tu respuesta fue adecuada o no. Si identificás correctamente el riesgo o la ventaja principal, ganás 1 Chispa adicional.'}
+];
+const PRES=[
+ {id:'PRES-01',nombre:'Mesada ajustada',ini:15000,ing:20000,gas:12000},
+ {id:'PRES-02',nombre:'Mesada organizada',ini:30000,ing:35000,gas:18000},
+ {id:'PRES-03',nombre:'Primer sueldo',ini:50000,ing:80000,gas:45000},
+ {id:'PRES-04',nombre:'Ingresos variables',ini:35000,ing:50000,gas:25000,nota:'Si un Evento reduce ingresos, también afecta este presupuesto.'},
+ {id:'PRES-05',nombre:'Estudiante independiente',ini:60000,ing:90000,gas:60000}
+];
+const METAS=[
+ {id:'META-01',nombre:'Fondo de tranquilidad',texto:'Terminá la partida con al menos $40.000 disponibles.',rew:3},
+ {id:'META-02',nombre:'Un gusto propio',texto:'Realizá dos compras de la categoría Gustos sin generar Deudas.',rew:3},
+ {id:'META-03',nombre:'Persona precavida',texto:'Identificá correctamente dos Alertas rojas.',rew:3},
+ {id:'META-04',nombre:'Crecer aprendiendo',texto:'Comprá dos Oportunidades de capacitación.',rew:3},
+ {id:'META-05',nombre:'Primer emprendimiento',texto:'Comprá dos Oportunidades que generen ingresos.',rew:3},
+ {id:'META-06',nombre:'Cero deudas',texto:'Terminá la partida sin Deudas pendientes.',rew:4},
+ {id:'META-07',nombre:'Cazador de oportunidades',texto:'Comprá tres Oportunidades diferentes.',rew:3},
+ {id:'META-08',nombre:'Decisiones conscientes',texto:'Respondé correctamente tres Situaciones.',rew:3},
+ {id:'META-09',nombre:'No todo lo que brilla',texto:'Rechazá correctamente dos ofertas riesgosas o engañosas.',rew:4},
+ {id:'META-10',nombre:'Equilibrio financiero',texto:'Terminá con dinero disponible y sin generar Deudas en las dos últimas rondas.',rew:4}
+];
+const SPARKS=[
+ {id:'SPARK-01',nombre:'Sueldo retenido',tag:'Interferencia',texto:'Elegí un rival antes de que cobre. Este mes recibe la mitad de su ingreso mensual; la otra mitad se le devuelve al inicio de la ronda siguiente. Si es la última ronda, recibe el resto al finalizar.',cuando:'Fase Ingresos, antes de cobrar'},
+ {id:'SPARK-02',nombre:'Oportunidad robada',tag:'Interferencia',texto:'Elegí una Oportunidad disponible en el mercado y reservála para vos. Debés pagarla en tu turno; si no podés, vuelve al mercado. No podés quitar una carta ya comprada.',cuando:'Mercado, antes de tu turno'},
+ {id:'SPARK-03',nombre:'Gasto inesperado',tag:'Interferencia',texto:'Elegí un rival. Debe pagar $5.000 extra al cierre de esta ronda. Si no puede, registra una Deuda.',cuando:'Mercado o fase Spark'},
+ {id:'SPARK-04',nombre:'Escudo financiero',tag:'Protección',texto:'Cancelá un efecto negativo de una Situación, Evento o Jugada Spark que te afecte. Jugala antes de aplicar el efecto.',cuando:'Reactiva: cuando te afecta un efecto negativo'},
+ {id:'SPARK-05',nombre:'Segunda opinión',tag:'Protección',texto:'Pedí una pista adicional sobre una Situación o Alerta sin costo. Debe usarse antes de responder.',cuando:'Situación o Alerta, antes de responder'},
+ {id:'SPARK-06',nombre:'Plan B',tag:'Protección',texto:'Después de elegir A, B o C, pero antes de conocer la respuesta, podés cambiar tu elección.',cuando:'Después de bloquear tu respuesta, antes de revelarla'},
+ {id:'SPARK-07',nombre:'Me adelanté',tag:'Oportunidad',texto:'Elegí primero una Oportunidad del mercado antes del orden habitual. Debés pagarla normalmente.',cuando:'Mercado, antes de tu turno'},
+ {id:'SPARK-08',nombre:'Contraoferta',tag:'Oportunidad',texto:'Comprá una Oportunidad disponible con $5.000 de descuento. El precio no puede ser inferior a cero.',cuando:'Mercado, en tu turno'},
+ {id:'SPARK-09',nombre:'Negocio entre jugadores',tag:'Interacción',texto:'Proponé intercambiar dinero u Oportunidades con otro jugador. Ambos deben aceptar; nadie está obligado.',cuando:'Fase Spark'},
+ {id:'SPARK-10',nombre:'Ingreso extra',tag:'Oportunidad',texto:'Recibí $10.000 adicionales este mes. Anotá el ingreso en tu ficha.',cuando:'Fase Ingresos o fase Spark'},
+ {id:'SPARK-11',nombre:'Revisión de contrato',tag:'Protección',texto:'Cancelá una penalidad económica de hasta $10.000 que te imponga una carta. No cancela Deudas anteriores.',cuando:'Reactiva: cuando una carta te impone una penalidad'},
+ {id:'SPARK-12',nombre:'Cambio de estrategia',tag:'Estrategia',texto:'Descartá esta carta y robá dos Jugadas Spark; elegí una para conservar y devolvé la otra al fondo del mazo.',cuando:'Fase Spark'}
+];
+const SITS=[
+ {id:'SIT-01',tema:'admin',titulo:'La compra impulsiva',txt:'Ves unas zapatillas que te encantan. No las necesitás y cuestan casi todo tu dinero disponible.',op:{A:'Las comprás porque te gustan.',B:'Revisás tu presupuesto y decidís si podés pagarlas sin afectar gastos importantes.',C:'Pedís un préstamo para comprarlas.'},ok:'B',exp:'Antes de comprar, conviene revisar cuánto dinero queda y qué gastos tenés pendientes.',hint:'Pensá en qué gastos importantes quedarían sin cubrir si gastás casi todo.'},
+ {id:'SIT-02',tema:'seguridad',titulo:'La oferta increíble',txt:'Una cuenta promete duplicar tu dinero en 24 horas si transferís hoy.',op:{A:'Transferís antes de que termine la oferta.',B:'Buscás información independiente y desconfiás de la promesa de ganancias garantizadas.',C:'Transferís una parte para probar.'},ok:'B',exp:'Las ganancias garantizadas y la presión para transferir rápido son señales de alerta.',hint:'Si algo suena demasiado bueno y te apura, ¿qué señal es esa?'},
+ {id:'SIT-03',tema:'credito',titulo:'El celular en cuotas',txt:'Querés comprar un celular y te ofrecen cuotas mensuales.',op:{A:'Comparás el costo total y las condiciones de financiación.',B:'Elegís solo la cuota más baja.',C:'Aceptás sin leer las condiciones.'},ok:'A',exp:'Una cuota baja no garantiza que la compra sea barata. Revisá el costo total.',hint:'Una cuota baja puede esconder un plazo largo o más costo total.'},
+ {id:'SIT-04',tema:'admin',titulo:'Llegó el ingreso',txt:'Cobraste y tenés varios gastos durante el mes.',op:{A:'Gastás primero y después ves qué queda.',B:'Separás los gastos necesarios y planificás el dinero restante.',C:'Guardás todo y no pagás nada.'},ok:'B',exp:'Organizar el dinero implica contemplar gastos necesarios y objetivos personales.',hint:'¿Qué pasa con tus obligaciones si primero gastás en gustos?'},
+ {id:'SIT-05',tema:'seguridad',titulo:'El mensaje del banco',txt:'Recibís un mensaje que dice que tu cuenta será bloqueada si no compartís un código.',op:{A:'Compartís el código.',B:'No compartís el código y verificás el aviso por un canal oficial.',C:'Se lo mandás a un amigo para que revise.'},ok:'B',exp:'No compartas códigos de seguridad. Verificá el mensaje por canales oficiales.',hint:'Un banco real nunca te pide códigos de seguridad por mensaje.'},
+ {id:'SIT-06',tema:'admin',titulo:'La salida del viernes',txt:'Tus amigos organizan una salida que cuesta más de lo previsto.',op:{A:'Vas y después resolvés cómo pagar.',B:'Revisás tu presupuesto y proponés una alternativa más económica.',C:'Pedís dinero sin saber cómo lo devolverás.'},ok:'B',exp:'Adaptar el plan permite disfrutar sin comprometer gastos importantes.',hint:'Hay una opción que te deja participar sin romper tu presupuesto.'},
+ {id:'SIT-07',tema:'ahorro',titulo:'Ahorrar para una meta',txt:'Querés comprar algo dentro de tres meses.',op:{A:'Separás una cantidad cada mes según lo que puedas ahorrar.',B:'Esperás que sobre dinero al final.',C:'Invertís todo en una opción cuyo resultado no conocés.'},ok:'A',exp:'Definir un objetivo y separar dinero de forma regular ayuda a planificar.',hint:'Un objetivo con fecha pide un plan, no suerte.'},
+ {id:'SIT-08',tema:'inversion',titulo:'El consejo viral',txt:'Un influencer recomienda un producto financiero, pero no explica riesgos ni costos.',op:{A:'Lo contratás porque tiene muchos seguidores.',B:'Investigás qué es, cuánto cuesta y qué riesgos tiene.',C:'Se lo recomendás a todos.'},ok:'B',exp:'La popularidad no demuestra que un producto sea adecuado o confiable.',hint:'Muchos seguidores no son una garantía de que algo sea confiable.'},
+ {id:'SIT-09',tema:'credito',titulo:'El pago mínimo',txt:'La tarjeta permite pagar solo una parte del resumen.',op:{A:'Revisás intereses y cuánto terminarías pagando.',B:'Pagás el mínimo sin mirar el saldo restante.',C:'Ignorás el resumen.'},ok:'A',exp:'El saldo financiado puede generar intereses. Revisá las condiciones.',hint:'El saldo que queda sin pagar sigue creciendo.'},
+ {id:'SIT-10',tema:'ahorro',titulo:'Un ingreso inesperado',txt:'Recibís dinero que no esperabas.',op:{A:'Lo gastás todo ese mismo día.',B:'Revisás tus objetivos y decidís cuánto guardar y cuánto usar.',C:'Lo entregás a quien prometa más rendimiento.'},ok:'B',exp:'Decidir según tus objetivos ayuda a evitar gastos por impulso.',hint:'Un ingreso que no esperabas también merece un plan.'},
+ {id:'SIT-11',tema:'admin',titulo:'El préstamo de un amigo',txt:'Un amigo te pide dinero, pero no sabe cuándo podrá devolverlo.',op:{A:'Le prestás dinero que necesitás para tus gastos.',B:'Evaluás si podés prestarlo sin comprometer tus necesidades y acuerdan condiciones claras.',C:'Pedís un préstamo para prestárselo.'},ok:'B',exp:'Ayudar no debería dejarte sin dinero para tus obligaciones.',hint:'Ayudar está bien, pero no a costa de tus propias necesidades.'},
+ {id:'SIT-12',tema:'consumo',titulo:'El descuento urgente',txt:'Una tienda anuncia que el descuento termina en cinco minutos.',op:{A:'Comprás sin revisar nada.',B:'Verificás precio, condiciones y si realmente necesitás el producto.',C:'Comprás dos para aprovechar.'},ok:'B',exp:'Un descuento no implica ahorrar si comprás algo innecesario.',hint:'La urgencia es una forma clásica de apurarte a decidir.'},
+ {id:'SIT-13',tema:'inversion',titulo:'La inversión desconocida',txt:'Te ofrecen invertir, pero no entendés cómo funciona ni si podés retirar el dinero.',op:{A:'Invertís todo lo que tenés.',B:'Buscás información sobre riesgos, costos y disponibilidad antes de decidir.',C:'Pedís dinero prestado para invertir.'},ok:'B',exp:'Antes de invertir, comprendé el producto, los riesgos y la disponibilidad del dinero.',hint:'Si no podés explicar cómo funciona, ¿qué te falta antes de poner plata?'},
+ {id:'SIT-14',tema:'admin',titulo:'El gasto compartido',txt:'Un grupo organiza un regalo y no acuerdan cuánto gastar.',op:{A:'Aceptás cualquier monto para no quedar mal.',B:'Proponés una cantidad que puedas pagar y una alternativa acorde al presupuesto.',C:'Usás crédito sin revisar el costo.'},ok:'B',exp:'Poner límites claros permite participar sin comprometer gastos esenciales.',hint:'Podés cuidar la relación y tu bolsillo a la vez.'},
+ {id:'SIT-15',tema:'admin',titulo:'El mes complicado',txt:'Un gasto inesperado hace que no te alcance para todos tus pagos.',op:{A:'Ignorás el problema hasta el mes siguiente.',B:'Revisás prioridades, contactás a quien corresponda y buscás alternativas.',C:'Aceptás cualquier préstamo que te ofrezcan.'},ok:'B',exp:'Reconocer el problema a tiempo permite evaluar opciones y evitar decisiones bajo presión.',hint:'Decidir con calma y a tiempo suele ser mejor que decidir bajo presión.'}
+];
+const RISKY=['SIT-02','SIT-05','SIT-08','SIT-13'];
+const ALTS=[
+ {id:'ALT-01',titulo:'Duplicá tu dinero',src:'Mensaje directo',txt:'Invertí hoy y mañana recibís el doble. Ganancia garantizada. Solo por tiempo limitado.',ok:'rojo',exp:'Promete ganancias garantizadas y presiona para decidir rápido.',hint:'Fijate en las palabras "garantizada" y "tiempo limitado".'},
+ {id:'ALT-02',titulo:'Sorteo inesperado',src:'SMS',txt:'Ganaste un premio. Para recibirlo, pagá un cargo y enviá tus datos bancarios.',ok:'rojo',exp:'Pedir pagos anticipados o datos sensibles para liberar un premio es una señal de riesgo.',hint:'¿Por qué te pedirían pagar para entregarte un premio?'},
+ {id:'ALT-03',titulo:'Mensaje del banco',src:'Mensaje privado',txt:'Tu banco necesita tu contraseña por mensaje privado para mantener tu cuenta activa.',ok:'rojo',exp:'No compartas contraseñas. Verificá cualquier aviso por canales oficiales.',hint:'¿Qué datos nunca debería pedirte tu banco por mensaje?'},
+ {id:'ALT-04',titulo:'Curso con condiciones',src:'Publicación',txt:'Curso de finanzas con precio publicado, temario, docente identificado y política de devolución visible.',ok:'verde',exp:'La información clara permite evaluar la propuesta; también conviene comprobar que los datos sean reales.',hint:'Mirá cuánta información clara y verificable hay.'},
+ {id:'ALT-05',titulo:'Oferta de empleo',src:'Publicación',txt:'Trabajo remoto: pagá una inscripción hoy y te garantizamos un sueldo enorme sin experiencia.',ok:'rojo',exp:'Cobrar por adelantado para acceder a un empleo y prometer ingresos extraordinarios son señales de alerta.',hint:'¿Un empleo real te cobra para trabajar?'},
+ {id:'ALT-06',titulo:'Recomendación en redes',src:'Historia en redes',txt:'Este producto me funcionó. No conozco todos sus riesgos; investigá antes de contratarlo.',ok:'amarillo',exp:'Es una experiencia personal, no una garantía. Hace falta investigar.',hint:'Quien recomienda admite que no conoce los riesgos. ¿Alcanza con eso?'},
+ {id:'ALT-07',titulo:'Mensaje de un conocido',src:'Mensaje desde número nuevo',txt:'Hola, cambié de número. Transferime dinero urgente y después te explico.',ok:'amarillo',exp:'Confirmá la identidad por otro medio antes de transferir.',hint:'El mensaje apura y pide plata. ¿Cómo comprobarías que es esa persona?'},
+ {id:'ALT-08',titulo:'Promoción oficial',src:'Publicidad',txt:'Una tienda anuncia un descuento y publica condiciones y precio final en su web oficial.',ok:'verde',exp:'Las condiciones transparentes son una buena señal, pero hay que comprobar que el sitio sea auténtico.',hint:'Hay condiciones y precio final a la vista. ¿Qué te queda por comprobar?'},
+ {id:'ALT-09',titulo:'Préstamo inmediato',src:'Anuncio',txt:'Te damos un préstamo sin explicar intereses, comisiones ni costo total. Aceptá ahora.',ok:'rojo',exp:'No aceptes condiciones que ocultan el costo total.',hint:'¿Qué información clave no te están dando?'},
+ {id:'ALT-10',titulo:'Inversión recomendada',src:'Conversación',txt:'Una persona conocida recomienda una inversión, pero no informa quién la regula ni qué riesgos tiene.',ok:'amarillo',exp:'La confianza personal no reemplaza la verificación del producto y de sus riesgos.',hint:'Que lo recomiende alguien conocido, ¿reemplaza verificar?'}
+];
+const DBS=[
+ {id:'DB-01',titulo:'Antes de aceptar un préstamo, ¿qué conviene revisar?',op:{A:'Solo la cuota.',B:'Costo total, intereses y condiciones.',C:'Solo la rapidez de aprobación.'},ok:'B',exp:'La cuota no muestra por sí sola cuánto terminarás pagando.'},
+ {id:'DB-02',titulo:'¿Qué es el phishing?',op:{A:'Un engaño para obtener datos personales o de acceso.',B:'Un tipo de ahorro.',C:'Un impuesto bancario.'},ok:'A',exp:'Puede llegar por mensajes, correos, llamados o sitios falsos.'},
+ {id:'DB-03',titulo:'¿Qué significa diversificar una inversión?',op:{A:'Poner todo en una sola opción.',B:'Distribuir el dinero entre distintas alternativas.',C:'Retirar todo cada semana.'},ok:'B',exp:'Puede reducir la exposición a un solo riesgo, pero no elimina todos los riesgos.'},
+ {id:'DB-04',titulo:'¿Qué es la inflación?',op:{A:'Una baja general de precios.',B:'Un aumento general de precios.',C:'Un interés que paga el banco.'},ok:'B',exp:'La misma cantidad de dinero puede comprar menos.'},
+ {id:'DB-05',titulo:'¿Qué es un fondo de emergencia?',op:{A:'Dinero reservado para imprevistos.',B:'Dinero exclusivo para gustos.',C:'Un préstamo para gastar.'},ok:'A',exp:'Su objetivo es ayudar a afrontar gastos inesperados.'},
+ {id:'DB-06',titulo:'Recibís una transferencia inesperada y te piden devolverla a otra cuenta. ¿Qué hacés?',op:{A:'Transferís inmediatamente.',B:'Verificás la operación y consultás a la entidad por canales oficiales.',C:'Compartís tus claves.'},ok:'B',exp:'No compartas claves ni muevas dinero sin verificar la situación.'},
+ {id:'DB-07',titulo:'¿Qué diferencia hay entre débito y crédito?',op:{A:'Ninguna.',B:'El débito descuenta dinero de tu cuenta; el crédito se paga posteriormente.',C:'El crédito siempre es gratis.'},ok:'B',exp:'El crédito puede generar costos y obligaciones de pago.'},
+ {id:'DB-08',titulo:'Antes de invertir en algo que no conocés, ¿qué deberías hacer?',op:{A:'Invertir porque alguien lo recomendó.',B:'Revisar funcionamiento, costos, riesgos y condiciones.',C:'Elegir lo que prometa más rendimiento.'},ok:'B',exp:'Comprender el producto es un paso básico antes de comprometer dinero.'}
+];
+const EVS=[
+ {id:'EV-01',nombre:'Subieron los precios',texto:'Todos pagan $5.000 adicionales de gastos este mes. Si alguien no puede, registra una Deuda.',cuando:'Se cobra en el Cierre del mes.'},
+ {id:'EV-02',nombre:'Mes de oportunidades',texto:'Todos reciben $5.000 extra de ingreso este mes.',cuando:'Se suma en la fase de Ingresos.'},
+ {id:'EV-03',nombre:'Gasto inesperado',texto:'Todos deben afrontar un gasto de $5.000. Se puede usar una Jugada Spark válida para protegerse.',cuando:'Se paga ahora. Quien pueda protegerse puede reaccionar.'},
+ {id:'EV-04',nombre:'Mes tranquilo',texto:'Quien termine la ronda sin Deudas gana 1 Chispa adicional.',cuando:'Se premia en el Cierre del mes.'},
+ {id:'EV-05',nombre:'Oferta dudosa en redes',texto:'Revelá una Alerta adicional. Todos votan; cada jugador que acierta gana 1 Chispa.',cuando:'Habrá una segunda Alerta este mes.'},
+ {id:'EV-06',nombre:'Aprender tiene recompensa',texto:'La primera respuesta correcta de cada jugador en una Situación o Dato Banco este mes otorga 1 Chispa adicional.',cuando:'Vale en Desafíos y Dato Banco.'}
+];
+const OPS=[
+ {id:'OP-01',nombre:'Changa de fin de semana',costo:0,ben:'Recibís $10.000',cuando:'Al comprarla',tipo:'Ingreso único',pilar:'Ganar'},
+ {id:'OP-02',nombre:'Trabajo de apoyo escolar',costo:0,ben:'Recibís $8.000 por ronda mientras conserves el trabajo',cuando:'Al cierre de cada ronda',tipo:'Ingreso recurrente',extra:'Con OP-04 comprada antes: +$2.000 por ronda',pilar:'Ganar'},
+ {id:'OP-03',nombre:'Venta de productos',costo:5000,ben:'Recibís $12.000',cuando:'Al cierre de esta ronda',tipo:'Ingreso único',pilar:'Ganar'},
+ {id:'OP-04',nombre:'Curso de herramientas digitales',costo:10000,ben:'Ganás 1 Chispa',cuando:'Al comprarla',tipo:'Capacitación',extra:'Si luego comprás OP-02, recibís $2.000 extra por ronda',pilar:'Crecer'},
+ {id:'OP-05',nombre:'Cuenta de ahorro',costo:10000,dep:true,ben:'Tu dinero queda guardado y se devuelve al final',cuando:'Recuperás al final. Retirarlo antes cuesta 1 Chispa',tipo:'Ahorro',extra:'No genera rendimiento en este prototipo',pilar:'Administrar'},
+ {id:'OP-06',nombre:'Compra planificada',costo:10000,ben:'Cuenta como requisito cumplido de una Meta de compra planificada',cuando:'Al comprarla',tipo:'Efecto especial',pilar:'Administrar'},
+ {id:'OP-07',nombre:'Taller de seguridad digital',costo:5000,ben:'Pedís una pista antes de votar en una Alerta',cuando:'La próxima Alerta que respondas',tipo:'Capacitación',pilar:'Proteger'},
+ {id:'OP-08',nombre:'Fondo para imprevistos',costo:15000,dep:true,ben:'Cubre un gasto inesperado de hasta $10.000, una vez',cuando:'Cuando lo necesites',tipo:'Protección',extra:'El dinero no usado se devuelve al final',pilar:'Proteger'},
+ {id:'OP-09',nombre:'Proyecto colaborativo',costo:10000,ben:'Recibís $15.000',cuando:'Al cierre de la ronda siguiente (o al final)',tipo:'Ingreso único diferido',pilar:'Ganar'},
+ {id:'OP-10',nombre:'Comparar antes de comprar',costo:0,ben:'Pagás $5.000 menos en otra Oportunidad esta ronda',cuando:'Esta ronda',tipo:'Descuento',pilar:'Administrar'}
+];
+const INCOME_OPS=['OP-01','OP-02','OP-03','OP-09'], CAP_OPS=['OP-04','OP-07'], TRADABLE=['OP-02','OP-03','OP-06','OP-09'];
+const PH=['Evento','Ingresos','Desafíos','Alertas','Mercado','Dato Banco','Spark','Cierre'];
+/* ===== MOTOR ===== */
+const $=s=>document.querySelector(s);
+const fmt=n=>(n<0?'−':'')+'$'+Math.abs(Math.round(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let G=null, CTX={}, UI={step:null,modal:null,auto:false,speed:900,busy:false,force:false,t:null,toast:null};
+const P=id=>G.players.find(p=>p.id===id);
+const orderIds=()=>{const n=G.players.length;return Array.from({length:n},(_,i)=>G.players[(G.startIdx+i)%n].id)};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+function newGame(){
+ const names=['Alex','Dani','Fran','Sam'],cols=['#2563eb','#e0454b','#7c5ce6','#d99a0b'];
+ const pers=shuffle(PERS),pres=shuffle(PRES),metas=shuffle(METAS),sparks=shuffle(SPARKS);
+ const gid=(G?G.gid:0)+1;
+ G={gid,round:0,phase:-1,dealt:false,final:false,viewer:'p0',startIdx:Math.floor(Math.random()*4),log:[],decisions:[],fx:[],market:[],event:null,
+  decks:{sit:shuffle(SITS),alt:shuffle(ALTS),db:shuffle(DBS),ev:shuffle(EVS),opp:shuffle(OPS),oppDiscard:[],spark:sparks.slice(4),sparkDiscard:[]},
+  players:names.map((n,i)=>({id:'p'+i,name:n,color:cols[i],pers:pers[i],pres:pres[i],meta:metas[i],spark:sparks[i],lastSpark:null,sparkUsedRound:-1,
+   dinero:pres[i].ini,ingreso:pres[i].ing,gastos:pres[i].gas,chispas:0,deudas:0,ahorro:0,fondo:null,opps:[],pending:[],led:[],
+   retRound:0,extra:0,abRound:0,hintRound:0,connRound:0,tallerHint:false,cmpRound:0,cmpUsed:true,ev6:false,mkActed:false,mkBought:false,
+   metaDone:false,eq:{},stats:{sitOk:0,red:0,rej:0,opCount:0,cap:0,inc:0}}))};
+ UI.step=null;UI.modal=null;UI.busy=false;CTX={win:'setup'};
+}
+function draw(deck,src){ // roba de un mazo, mezclando de nuevo si se acaba
+ if(!G.decks[deck].length) G.decks[deck]=shuffle(src);
+ return G.decks[deck].shift();
+}
+function drawOpp(){
+ const d=G.decks;
+ if(!d.opp.length&&d.oppDiscard.length){d.opp=shuffle(d.oppDiscard);d.oppDiscard=[]}
+ return d.opp.shift()||null;
+}
+function log(msg,type='info'){G.log.unshift({r:G.round,msg,type})}
+function fx(pid,text,cls){G.fx.push({pid,text,cls})}
+function note(p,txt,w){G.decisions.push({r:G.round,pid:p.id,txt,w})}
+function money(p,amt,label){
+ p.dinero+=amt;p.led.push({r:G.round,k:'$',label,amt});
+ log(`${p.name} ${amt>=0?'recibe':'paga'} ${fmt(Math.abs(amt))} · ${label}`,amt>=0?'gain':'loss');
+ fx(p.id,(amt>=0?'+':'−')+fmt(Math.abs(amt)),amt>=0?'up':'down');
+}
+function chispa(p,n,label){
+ p.chispas+=n;p.led.push({r:G.round,k:'c',label,amt:n});
+ log(`${p.name} ${n>0?'gana':'pierde'} ${Math.abs(n)} Chispa${Math.abs(n)>1?'s':''} · ${label}`,'spark');
+ fx(p.id,(n>0?'+':'−')+Math.abs(n)+' ⚡','spk');
+}
+function addDebt(p,n,label){p.deudas+=n;p.led.push({r:G.round,k:'d',label,amt:n});fx(p.id,'+'+n+' Deuda','down')}
+function pay(p,amt,label){ // paga lo que puede; el faltante se convierte en Deudas de $5.000 (redondeo hacia arriba)
+ if(amt<=0)return;
+ const paid=Math.min(p.dinero,amt);
+ if(paid>0)money(p,-paid,label);
+ const short=amt-paid;
+ if(short>0){const n=Math.ceil(short/5000);addDebt(p,n,label);log(`${p.name} no pudo cubrir ${fmt(short)} (${label}) y registra ${n} Deuda${n>1?'s':''}`,'debt');note(p,`No alcanzó para «${label}» y sumó ${n} Deuda${n>1?'s':''}`,3)}
+}
+const totalAvail=p=>p.dinero+p.ahorro+(p.fondo?p.fondo.bal:0);
+const abUsed=p=>p.abRound===G.round;
+const mark=()=>Object.fromEntries(G.players.map(p=>[p.id,{led:p.led.length}]));
+
+/* ---------- Jugadas Spark ---------- */
+const sparkReady=(p,id)=>p.spark&&p.spark.id===id&&p.sparkUsedRound!==G.round;
+function useSpark(p){G.decks.sparkDiscard.push(p.spark);p.lastSpark=p.spark;p.spark=null;p.sparkUsedRound=G.round}
+const tradable=p=>p.opps.filter(o=>o.state==='active'&&TRADABLE.includes(o.id)&&!o.paid);
+const mkDisc=(p,card,extra=0)=>card.dep?0:((p.cmpRound===G.round&&!p.cmpUsed&&card.id!=='OP-10')?5000:0)+extra;
+const priceFor=(p,card,extra=0)=>Math.max(0,card.costo-mkDisc(p,card,extra));
+function sparkCheck(p){
+ const c=p.spark;if(!c)return{ok:false,reason:'Sin Jugada Spark'};
+ if(p.sparkUsedRound===G.round)return{ok:false,reason:'Ya usó una Jugada Spark este mes'};
+ const w=CTX.win,no=r=>({ok:false,reason:r}),ok={ok:true},me=CTX.actor===p.id;
+ switch(c.id){
+  case 'SPARK-01':return w==='ingresos'&&!CTX.collected?ok:no('Solo en Ingresos, antes de cobrar');
+  case 'SPARK-02':return w==='mercado'&&!p.mkActed&&G.market.some(s=>!s.by&&!s.rsv)?ok:no('Solo en el Mercado, antes de tu turno');
+  case 'SPARK-03':return w==='mercado'||w==='spark'?ok:no('Solo en el Mercado o la fase Spark');
+  case 'SPARK-04':case 'SPARK-11':return{ok:false,reactive:true,reason:'Se ofrece sola cuando te afecta un efecto negativo'};
+  case 'SPARK-05':return (w==='desafio'&&me&&CTX.stage==='pick')||(w==='alerta'&&me&&CTX.stage==='vote')?ok:no('Solo antes de responder una Situación o Alerta propia');
+  case 'SPARK-06':return (w==='desafio'||w==='dato')&&me&&CTX.stage==='locked'&&!CTX.planBUsed?ok:no('Solo después de bloquear tu respuesta y antes de revelarla');
+  case 'SPARK-07':return w==='mercado'&&!p.mkActed&&!me?ok:no('Solo en el Mercado, antes de tu turno');
+  case 'SPARK-08':return w==='mercado'&&me&&G.market.some(s=>(!s.by&&(!s.rsv||s.rsv===p.id))&&p.dinero>=priceFor(p,s.card,5000))?ok:no('Solo en tu turno del Mercado, si podés pagar una carta');
+  case 'SPARK-09':return w==='spark'&&G.players.some(x=>tradable(x).length)?ok:no('Solo en la fase Spark y si hay Oportunidades para intercambiar');
+  case 'SPARK-10':return w==='ingresos'||w==='spark'?ok:no('Solo en Ingresos o en la fase Spark');
+  case 'SPARK-12':return w==='spark'?ok:no('Solo en la fase Spark');
+ }
+}
+async function pickTarget(p,title,filter){
+ const t=G.players.filter(x=>filter(x));
+ if(!t.length){toast('No hay un objetivo válido ahora');return null}
+ const r=await askModal({title,body:`<p>Elegí un jugador.</p>`,buttons:[...t.map(x=>({id:x.id,html:`<span class="av" style="--pc:${x.color};display:inline-grid;margin-right:8px">${x.name[0]}</span>${x.name}`})),{id:'x',html:'Cancelar',cls:'ghost'}],auto:()=>closeModal(rnd(t).id)});
+ return r==='x'?null:P(r);
+}
+async function sparkOverlay(p,card,text){
+ note(p,`Jugó «${card.nombre}»`,3);
+ log(`${p.name} juega ${card.nombre}. ${text}`,'play');
+ await askModal({cls:'sparkplay',title:`✦ ${p.name} juega una Jugada Spark`,body:cSpark(card)+`<p><b>${text}</b></p>`,buttons:[{id:'ok',html:'Continuar',cls:'gold'}],auto:()=>closeModal('ok')});
+}
+async function reactive(p,o){ // ofrece Escudo / Revisión / Fondo antes de aplicar un efecto negativo
+ const opts=[];
+ if(sparkReady(p,'SPARK-04'))opts.push({id:'escudo',html:'🛡 <b>Escudo financiero</b> · cancelar este efecto'});
+ if(o.kind==='gasto'&&o.amount<=10000&&sparkReady(p,'SPARK-11'))opts.push({id:'revision',html:'📑 <b>Revisión de contrato</b> · cancelar la penalidad'});
+ if(o.kind==='gasto'&&o.amount<=10000&&p.fondo&&!p.fondo.used&&p.fondo.bal>=o.amount)opts.push({id:'fondo',html:`💼 <b>Fondo para imprevistos</b> · cubrir ${fmt(o.amount)} desde el fondo`});
+ if(!opts.length)return null;
+ const r=await askModal({title:`${p.name} puede reaccionar`,body:`<p>Efecto que se va a aplicar: <b>${o.label}</b>${o.amount?' ('+fmt(o.amount)+')':''}.</p>`,buttons:[...opts,{id:'none',html:'Dejar que se aplique',cls:'ghost'}],auto:()=>closeModal(Math.random()<.85?opts[0].id:'none')});
+ if(r==='escudo'||r==='revision'){const c=p.spark;useSpark(p);await sparkOverlay(p,c,`Cancela: ${o.label}.`);return 'cancel'}
+ if(r==='fondo'){p.fondo.bal-=o.amount;p.fondo.used=true;note(p,'Usó el Fondo para imprevistos',2);log(`${p.name} cubre ${fmt(o.amount)} con el Fondo para imprevistos (${o.label})`,'gain');fx(p.id,'Fondo cubre','up');return 'fondo'}
+ return null;
+}
+async function expense(p,amt,label){const r=await reactive(p,{kind:'gasto',amount:amt,label});if(!r)pay(p,amt,label)}
+
+function addHint(c){ // pista: primero el texto de la carta, después descartes de opciones incorrectas
+ const card=c.card,keys=c.kind==='alt'?['verde','amarillo','rojo']:['A','B','C'],wr=keys.filter(k=>k!==card.ok);
+ if(!c.hints.length&&card.hint)c.hints.push(card.hint);
+ else{const k=wr.find(x=>!c.elim.includes(x));if(k){c.elim.push(k);c.hints.push(c.kind==='alt'?`No es ${k.toUpperCase()}.`:`La opción ${k} no es la indicada.`)}}
+}
+function hintsLeft(p,kind){
+ if(kind==='db')return 0;
+ return (p.hintRound!==G.round?1:0)+(kind==='alt'&&p.pers.key==='con'&&p.connRound!==G.round?1:0)+(kind==='alt'&&p.tallerHint?1:0);
+}
+function useHint(p,kind){
+ if(p.hintRound!==G.round)p.hintRound=G.round;
+ else if(kind==='alt'&&p.pers.key==='con'&&p.connRound!==G.round)p.connRound=G.round;
+ else if(kind==='alt'&&p.tallerHint){p.tallerHint=false;p.opps.filter(o=>o.id==='OP-07').forEach(o=>o.state='done')}
+ else return false;
+ return true;
+}
+
+async function playSpark(pid){
+ if(UI.modal)return;
+ const p=P(pid),chk=sparkCheck(p);
+ if(!chk.ok){toast(chk.reason);return}
+ const c=p.spark;
+ switch(c.id){
+  case 'SPARK-01':{
+   const t=await pickTarget(p,'Sueldo retenido: ¿a quién?',x=>x.id!==p.id&&x.retRound!==G.round);if(!t)return;
+   useSpark(p);await sparkOverlay(p,c,`${t.name} cobraría solo la mitad de su ingreso este mes; la otra mitad vuelve después.`);
+   const r=await reactive(t,{kind:'retencion',label:'Sueldo retenido'});
+   if(r==='cancel')log(`${t.name} cancela el efecto de Sueldo retenido`,'gain');else{t.retRound=G.round;log(`${t.name} cobrará la mitad de su ingreso este mes`,'loss')}
+   break}
+  case 'SPARK-02':{
+   const av=G.market.map((s,i)=>({s,i})).filter(x=>!x.s.by&&!x.s.rsv);
+   const r=await askModal({title:'Oportunidad robada',body:'<p>Elegí la carta que querés reservar. La pagás en tu turno; si no podés, vuelve al mercado.</p>',buttons:[...av.map(x=>({id:String(x.i),html:`<b>${x.s.card.nombre}</b> · ${x.s.card.dep?'depósito ':''}${fmt(x.s.card.costo)}`})),{id:'x',html:'Cancelar',cls:'ghost'}],auto:()=>closeModal(String(rnd(av).i))});
+   if(r==='x')return;const s=G.market[+r];useSpark(p);s.rsv=p.id;
+   await sparkOverlay(p,c,`${s.card.nombre} queda reservada para ${p.name}.`);break}
+  case 'SPARK-03':{
+   const t=await pickTarget(p,'Gasto inesperado: ¿a quién?',x=>x.id!==p.id);if(!t)return;
+   useSpark(p);t.extra++;await sparkOverlay(p,c,`${t.name} deberá pagar $5.000 extra al cierre de este mes.`);break}
+  case 'SPARK-05':{useSpark(p);addHint(CTX);await sparkOverlay(p,c,`${p.name} recibe una pista adicional.`);break}
+  case 'SPARK-06':{useSpark(p);CTX.prev=CTX.lock;CTX.lock=null;CTX.picked=null;CTX.stage='pick';CTX.planBUsed=true;await sparkOverlay(p,c,`${p.name} puede cambiar su elección antes de la revelación.`);break}
+  case 'SPARK-07':{useSpark(p);CTX.queue=[p.id,...CTX.queue.filter(x=>x!==p.id)];await sparkOverlay(p,c,`${p.name} elige primero en el Mercado.`);finishStep('reorder');break}
+  case 'SPARK-08':{
+   const av=G.market.map((s,i)=>({s,i})).filter(x=>(!x.s.by&&(!x.s.rsv||x.s.rsv===p.id))&&p.dinero>=priceFor(p,x.s.card,5000));
+   const r=await askModal({title:'Contraoferta',body:'<p>Elegí qué Oportunidad comprar con $5.000 de descuento.</p>',buttons:[...av.map(x=>({id:String(x.i),html:`<b>${x.s.card.nombre}</b> · ${fmt(priceFor(p,x.s.card,5000))}`})),{id:'x',html:'Cancelar',cls:'ghost'}],auto:()=>closeModal(String(rnd(av).i))});
+   if(r==='x')return;const s=G.market[+r];useSpark(p);
+   await sparkOverlay(p,c,`${p.name} compra ${s.card.nombre} con $5.000 de descuento.`);
+   buyOpp(p,s,5000);finishStep('bought');break}
+  case 'SPARK-09':{if(!await tradeFlow(p))return;break}
+  case 'SPARK-10':{useSpark(p);await sparkOverlay(p,c,`${p.name} suma $10.000 este mes.`);money(p,10000,'Jugada Spark · Ingreso extra');break}
+  case 'SPARK-12':{
+   const pool=[];for(let i=0;i<2&&G.decks.spark.length;i++)pool.push(G.decks.spark.shift());
+   if(!pool.length){toast('No quedan Jugadas Spark en el mazo');return}
+   useSpark(p);await sparkOverlay(p,c,`${p.name} roba ${pool.length} Jugada${pool.length>1?'s':''} Spark y conserva una.`);
+   const r=await askModal({title:'Elegí cuál conservar',body:'<div class="grid-cards">'+pool.map(cSpark).join('')+'</div><p class="help">La otra vuelve al fondo del mazo.</p>',cls:'wide',buttons:pool.map((x,i)=>({id:String(i),html:'Conservar '+x.nombre})),auto:()=>closeModal(String(Math.floor(Math.random()*pool.length)))});
+   const keep=pool[+r];pool.forEach((x,i)=>{if(i!==+r)G.decks.spark.push(x)});p.spark=keep;log(`${p.name} se queda con una nueva Jugada Spark`,'play');break}
+ }
+ render();
+}
+function finishStep(v){if(UI.step)UI.step.res&&finish(v)}
+
+async function tradeFlow(p){
+ const t=await pickTarget(p,'Negocio entre jugadores: ¿con quién?',x=>x.id!==p.id);if(!t)return false;
+ const mine=tradable(p),theirs=tradable(t);
+ if(!mine.length&&!theirs.length){toast('Ninguno tiene Oportunidades para intercambiar');return false}
+ const moneyOpt=[5000,10000,15000,20000].map(v=>`<option value="m${v}">Dinero: ${fmt(v)}</option>`).join('');
+ const oo=(a)=>a.map(o=>`<option value="o${o.id}">${o.card.nombre} (${o.id})</option>`).join('');
+ while(true){
+  const r=await askModal({title:`Negocio: ${p.name} ↔ ${t.name}`,body:`<label>${p.name} da<select id="tg">${moneyOpt}${oo(mine)}</select></label><label>${p.name} recibe de ${t.name}<select id="tw">${oo(theirs)}${moneyOpt}</select></label><p class="help">Al menos uno de los dos lados debe ser una Oportunidad. ${t.name} tiene que aceptar.</p>`,
+   buttons:[{id:'send',html:'Proponer',cls:'primary'},{id:'x',html:'Cancelar',cls:'ghost'}],collect:()=>({g:$('#tg').value,w:$('#tw').value}),
+   auto:()=>closeModal({id:'x'})});
+  if(!r||r.id==='x')return false;
+  const g=r.data.g,w=r.data.w;
+  if(g[0]==='m'&&w[0]==='m'){toast('Uno de los lados tiene que ser una Oportunidad');continue}
+  if(g[0]==='m'&&p.dinero<+g.slice(1)){toast(`${p.name} no tiene ese dinero`);continue}
+  if(w[0]==='m'&&t.dinero<+w.slice(1)){toast(`${t.name} no tiene ese dinero`);continue}
+  const desc=x=>x[0]==='m'?fmt(+x.slice(1)):OPS.find(o=>o.id===x.slice(1)).nombre;
+  const a=await askModal({title:`${t.name}: ¿aceptás el negocio?`,body:`<p>${p.name} te ofrece <b>${desc(g)}</b> y te pide <b>${desc(w)}</b>.</p>`,buttons:[{id:'yes',html:'Aceptar',cls:'primary'},{id:'no',html:'Rechazar',cls:'ghost'}],auto:()=>closeModal(Math.random()<.5?'yes':'no')});
+  if(a!=='yes'){log(`${t.name} rechaza el negocio de ${p.name}`,'info');toast('Rechazado: la carta no se gasta');return false}
+  useSpark(p);
+  const move=(from,to,x)=>{if(x[0]==='m'){money(from,-+x.slice(1),`Negocio con ${to.name}`);money(to,+x.slice(1),`Negocio con ${from.name}`)}else{const i=from.opps.findIndex(o=>o.id===x.slice(1));to.opps.push(from.opps.splice(i,1)[0])}};
+  move(p,t,g);move(t,p,w);
+  await sparkOverlay(p,{id:'SPARK-09',nombre:'Negocio entre jugadores',tag:'Interacción',texto:'',cuando:''},`${p.name} entrega ${desc(g)} y recibe ${desc(w)}.`);
+  return true;
+ }
+}
+async function botSparks(win){
+ UI.force=true;
+ try{for(const id of orderIds()){const p=P(id);if(!p.spark)continue;const k=sparkCheck(p);if(!k.ok||k.reactive||p.spark.id==='SPARK-09')continue;if(Math.random()<.45)await playSpark(id)}}finally{UI.force=false}
+}
+
+/* ---------- Oportunidades ---------- */
+function buyOpp(p,slot,extra=0){
+ const card=slot.card,price=priceFor(p,card,extra);
+ if(card.id!=='OP-10'&&p.cmpRound===G.round&&!p.cmpUsed&&!card.dep)p.cmpUsed=true;
+ if(price>0)money(p,-price,card.dep?`Separa ${fmt(price)} · ${card.nombre}`:`Compra ${card.nombre}`);
+ slot.by=p.id;slot.rsv=null;p.mkBought=true;
+ p.stats.opCount++;if(INCOME_OPS.includes(card.id))p.stats.inc++;if(CAP_OPS.includes(card.id))p.stats.cap++;
+ const o={id:card.id,card,r:G.round,state:'active',bonus:0};p.opps.push(o);
+ log(`${p.name} compra ${card.nombre}${price?' por '+fmt(price):''}`,'gain');
+ note(p,`Compró «${card.nombre}»${price?' ('+fmt(price)+')':' (gratis)'}`,2);
+ switch(card.id){
+  case 'OP-01':money(p,10000,'Changa de fin de semana');o.state='done';break;
+  case 'OP-02':o.bonus=p.opps.some(x=>x.id==='OP-04')?2000:0;break;
+  case 'OP-03':o.payRound=G.round;o.payAmt=12000;break;
+  case 'OP-04':chispa(p,1,'Curso de herramientas digitales');o.state='done';break;
+  case 'OP-05':p.ahorro+=price;break;
+  case 'OP-07':p.tallerHint=true;break;
+  case 'OP-08':p.fondo={bal:price,used:false};break;
+  case 'OP-09':o.payRound=G.round+1;o.payAmt=15000;break;
+  case 'OP-10':p.cmpRound=G.round;p.cmpUsed=false;break;
+ }
+ checkMetas(p,false);
+}
+function oppStatus(o,p){
+ switch(o.id){
+  case 'OP-02':return 'cobra $'+((8000+o.bonus)/1000)+'.000 por cierre';
+  case 'OP-03':return o.paid?'cobrada':'cobra en el cierre';
+  case 'OP-04':return 'completado';
+  case 'OP-05':return o.state==='done'?'retirada':fmt(p.ahorro)+' guardados';
+  case 'OP-06':return 'activa';
+  case 'OP-07':return o.state==='done'?'usada':'pista disponible';
+  case 'OP-08':return p.fondo&&p.fondo.used?'usado':'sin usar';
+  case 'OP-09':return o.paid?'cobrado':'cobra en el cierre '+(o.payRound>4?'(final)':'de M'+o.payRound);
+  case 'OP-10':return p.cmpUsed&&p.cmpRound===G.round?'usado':p.cmpRound===G.round?'descuento listo':'vencida';
+  default:return o.state==='done'?'usada':'activa';
+ }
+}
+
+/* ---------- Metas ---------- */
+function checkMetas(p,final){
+ if(p.metaDone)return;
+ const s=p.stats;let ok=false;
+ switch(p.meta.id){
+  case 'META-01':ok=final&&totalAvail(p)>=40000;break;
+  case 'META-02':ok=p.opps.some(o=>o.id==='OP-06')&&p.deudas===0&&(final||G.phase===7);break;
+  case 'META-03':ok=s.red>=2;break;
+  case 'META-04':ok=s.cap>=2;break;
+  case 'META-05':ok=s.inc>=2;break;
+  case 'META-06':ok=final&&p.deudas===0;break;
+  case 'META-07':ok=s.opCount>=3;break;
+  case 'META-08':ok=s.sitOk>=3;break;
+  case 'META-09':ok=s.rej>=2;break;
+  case 'META-10':ok=(final||(G.round===4&&G.phase===7))&&!!p.eq[3]&&!!p.eq[4];break;
+ }
+ if(ok){p.metaDone=true;chispa(p,p.meta.rew,`Meta cumplida: ${p.meta.nombre}`);note(p,`Cumplió su Meta «${p.meta.nombre}» (+${p.meta.rew})`,3)}
+}
+function metaProg(p){
+ const s=p.stats;let t='',v=0;
+ switch(p.meta.id){
+  case 'META-01':t=`${fmt(totalAvail(p))} de $40.000`;v=totalAvail(p)/40000;break;
+  case 'META-02':{const h=p.opps.some(o=>o.id==='OP-06');t=`Compra planificada (OP-06): ${h?'sí':'no'} · deudas: ${p.deudas}`;v=h&&p.deudas===0?1:h?.5:0;break}
+  case 'META-03':t=`${s.red} de 2 Alertas rojas`;v=s.red/2;break;
+  case 'META-04':t=`${s.cap} de 2 capacitaciones`;v=s.cap/2;break;
+  case 'META-05':t=`${s.inc} de 2 con ingresos`;v=s.inc/2;break;
+  case 'META-06':t=p.deudas?`${p.deudas} deuda(s) pendiente(s)`:'Sin deudas por ahora';v=p.deudas?0:1;break;
+  case 'META-07':t=`${s.opCount} de 3 compradas`;v=s.opCount/3;break;
+  case 'META-08':t=`${s.sitOk} de 3 correctas`;v=s.sitOk/3;break;
+  case 'META-09':t=`${s.rej} de 2 rechazos`;v=s.rej/2;break;
+  case 'META-10':t=G.round<3?'Se evalúa en los meses 3 y 4':`Mes 3: ${p.eq[3]?'sí':'no'} · Mes 4: ${p.eq[4]?'sí':'no'}`;v=((p.eq[3]?1:0)+(p.eq[4]?1:0))/2;break;
+ }
+ return{t,v:Math.max(0,Math.min(1,v))};
+}
+
+/* ---------- Pasos interactivos ---------- */
+function ask(spec){return new Promise(res=>{UI.step={...spec,res,gid:G.gid};render()})}
+function finish(v){const s=UI.step;if(!s)return;UI.step=null;s.res(v)}
+function askModal(spec){return new Promise(res=>{UI.modal={...spec,res,gid:G.gid};render();if(UI.force)setTimeout(()=>{if(UI.modal&&UI.modal.res===res&&UI.modal.auto)UI.modal.auto()},350)})}
+function closeModal(v){const m=UI.modal;if(!m)return;UI.modal=null;render();m.res(v)}
+function autoSchedule(){
+ clearTimeout(UI.t);if(!UI.auto||!G)return;
+ const gid=G.gid;
+ UI.t=setTimeout(async()=>{
+  if(!UI.auto||G.gid!==gid)return;
+  if(UI.modal){if(UI.modal.auto)UI.modal.auto();return}
+  if(UI.step&&UI.step.auto&&!UI.busy){UI.busy=true;try{await UI.step.auto()}finally{UI.busy=false;if(G.gid===gid)autoSchedule()}}
+ },UI.speed);
+}
+function toast(msg){UI.toast=msg;render();clearTimeout(UI.tt);UI.tt=setTimeout(()=>{UI.toast=null;render()},2600)}
+
+/* ---------- Partida ---------- */
+async function playGame(){
+ const gid=G.gid;
+ await setupStep();
+ for(let r=1;r<=4;r++){
+  G.round=r;if(r>1)G.startIdx=(G.startIdx+1)%4;
+  G.players.forEach(p=>{p.ev6=false;p.mkActed=false;p.mkBought=false});
+  G.market=[];
+  await fEvento();await fIngresos();await fDesafios();await fAlertas();await fMercado();await fDatoBanco();await fSpark();await fCierre();
+ }
+ await endGame();
+}
+function setupStep(){
+ G.phase=-1;CTX={win:'setup'};
+ return ask({title:'Preparación',help:'Cada jugador recibe al azar 1 Personaje, 1 Presupuesto, 1 Meta (secreta) y 1 Jugada Spark.',
+  center:()=>G.dealt?setupDealt():setupPre(),
+  actions:()=>G.dealt?[{id:'go',label:'▶ Empezar la partida',cls:'primary'}]:[{id:'deal',label:'🃏 Robar las cartas iniciales',cls:'primary'}],
+  onAct:id=>{if(id==='deal'){G.dealt=true;G.players.forEach(p=>log(`${p.name} recibe ${p.pers.nombre}, ${p.pres.nombre}, una Meta secreta y una Jugada Spark`,'info'));render()}else finish()},
+  auto:()=>{if(!G.dealt){G.dealt=true;render()}else finish()}});
+}
+async function fEvento(){
+ G.phase=0;CTX={win:'evento'};
+ const ev=draw('ev',EVS);G.event=ev;log(`Evento del mes: ${ev.nombre}`,'event');
+ await ask({title:'Fase 1 · Evento del mes',help:'La carta afecta a todos durante este mes.',
+  center:()=>`<div class="stage-h"><h2>Evento del mes</h2><span class="eyebrow">Fase 1 de 8</span></div><div class="center-card pop">${cEvento(ev)}</div>`,
+  actions:()=>[{id:'go',label:'Aplicar el evento',cls:'primary'}],onAct:()=>finish(),auto:()=>finish()});
+ if(ev.id==='EV-03')for(const id of orderIds())await expense(P(id),5000,'Evento · Gasto inesperado');
+}
+function incomeLines(p){
+ const L=[];
+ if(p.retRound===G.round)L.push(['Ingreso mensual (mitad: sueldo retenido)',Math.floor(p.ingreso/2),'g']);else L.push(['Ingreso mensual',p.ingreso,'g']);
+ p.pending.filter(x=>x.when==='inicio'&&x.round===G.round).forEach(x=>L.push([x.label,x.amt,'g']));
+ if(G.event.id==='EV-02')L.push(['Evento · Mes de oportunidades',5000,'g']);
+ return L;
+}
+async function fIngresos(){
+ G.phase=1;CTX={win:'ingresos',collected:false};
+ await ask({title:'Fase 2 · Ingresos',help:'Antes de cobrar, quien tenga la Jugada Spark indicada puede usarla desde su ficha.',
+  center:()=>`<div class="stage-h"><h2>Ingresos del mes</h2><span class="eyebrow">Fase 2 de 8</span></div><p class="lede">Cada jugador cobra su ingreso mensual. Esta es la ventana para jugar <b>Sueldo retenido</b> o <b>Ingreso extra</b>.</p><div class="sum">${G.players.map(p=>{const L=incomeLines(p);const t=L.reduce((a,x)=>a+x[1],0);return `<div class="sbox" style="--pc:${p.color}"><h4>${p.name}<span class="nums">${fmt(p.dinero)}</span></h4><ul>${L.map(x=>`<li class="g"><span>${x[0]}</span><span>+${fmt(x[1])}</span></li>`).join('')}</ul><div class="tot"><span>Cobra</span><span>${fmt(t)}</span></div></div>`}).join('')}</div>`,
+  actions:()=>[{id:'go',label:'💰 Cobrar ingresos',cls:'primary'}],onAct:()=>finish(),
+  auto:async()=>{await botSparks('ingresos');finish()}});
+ const mk=mark();
+ for(const id of orderIds()){
+  const p=P(id);
+  p.pending.filter(x=>x.when==='inicio'&&x.round===G.round).forEach(x=>money(p,x.amt,x.label));
+  p.pending=p.pending.filter(x=>!(x.when==='inicio'&&x.round===G.round));
+  if(p.retRound===G.round){
+   const half=Math.floor(p.ingreso/2);money(p,half,'Ingreso mensual (mitad, sueldo retenido)');
+   p.pending.push(G.round<4?{when:'inicio',round:G.round+1,amt:p.ingreso-half,label:'Devolución del sueldo retenido'}:{when:'cierre',round:4,amt:p.ingreso-half,label:'Devolución del sueldo retenido'});
+  }else money(p,p.ingreso,'Ingreso mensual');
+  if(G.event.id==='EV-02')money(p,5000,'Evento · Mes de oportunidades');
+ }
+ CTX.collected=true;
+ await ask({title:'Fase 2 · Ingresos cobrados',help:'Todavía se puede jugar Ingreso extra. El dinero ya está actualizado en las fichas.',
+  center:()=>`<div class="stage-h"><h2>Ingresos cobrados</h2><span class="eyebrow">Fase 2 de 8</span></div>${summaryHTML(mk)}`,
+  actions:()=>[{id:'go',label:'Seguir a Desafíos →',cls:'primary'}],onAct:()=>finish(),auto:()=>finish()});
+}
+function summaryHTML(mk){
+ return `<div class="sum">${G.players.map(p=>{
+  const L=p.led.slice(mk[p.id].led);
+  return `<div class="sbox" style="--pc:${p.color}"><h4>${p.name}<span class="nums">${fmt(p.dinero)}</span></h4><ul>${L.length?L.map(x=>x.k==='$'?`<li class="${x.amt>=0?'g':'r'}"><span>${x.label}</span><span>${x.amt>=0?'+':''}${fmt(x.amt)}</span></li>`:x.k==='c'?`<li class="s"><span>${x.label}</span><span>${x.amt>0?'+':''}${x.amt} ⚡</span></li>`:`<li class="r"><span>${x.label}</span><span>+${x.amt} Deuda</span></li>`).join(''):'<li><span>Sin cambios</span><span></span></li>'}</ul><div class="tot"><span>Dinero · Deudas · ⚡</span><span class="nums">${fmt(p.dinero)} · ${p.deudas} · ${p.chispas}</span></div></div>`}).join('')}</div>`;
+}
+
+/* Preguntas con A/B/C (Situación y Dato Banco) */
+async function qa(kind,p,card){
+ const c=CTX={win:kind==='sit'?'desafio':'dato',kind,actor:p.id,stage:'pick',picked:null,lock:null,prev:null,planBUsed:false,hints:[],elim:[],card,ok:null,anaDone:false};
+ G.phase=kind==='sit'?2:5;
+ await ask({title:`${kind==='sit'?'Fase 3 · Desafío':'Fase 6 · Dato Banco'} · ${p.name}`,
+  help:c.stage==='pick'?'Elegí A, B o C y bloqueá la respuesta. La solución se muestra recién después.':'',
+  center:()=>qaHTML(c,p),
+  actions:()=>{
+   const A=[];
+   if(c.stage==='pick'){
+    const hl=hintsLeft(p,kind==='sit'?'sit':'db');
+    if(kind==='sit')A.push({id:'hint',label:`💡 Pedir pista (${hl})`,dis:!hl||c.hints.length>=3});
+    A.push({id:'lock',label:'🔒 Bloquear respuesta',cls:'primary',dis:!c.picked});
+   }else if(c.stage==='locked')A.push({id:'reveal',label:'Revelar resultado',cls:'primary'});
+   else{
+    if(kind==='sit'&&p.pers.key==='ana'&&!abUsed(p)&&!c.anaDone){A.push({id:'ana1',label:'🧠 Explicó bien el riesgo (+1 ⚡)',cls:'gold'});A.push({id:'ana0',label:'No sumó',cls:'ghost'})}
+    A.push({id:'next',label:'Siguiente →',cls:'primary'});
+   }
+   return A;
+  },
+  onAct:id=>qaAct(c,p,id),
+  auto:()=>{
+   if(c.stage==='pick'){const w=['A','B','C'].filter(x=>x!==card.ok);c.picked=Math.random()<.65?card.ok:rnd(w);qaAct(c,p,'lock')}
+   else if(c.stage==='locked')qaAct(c,p,'reveal');
+   else if(kind==='sit'&&p.pers.key==='ana'&&!abUsed(p)&&!c.anaDone)qaAct(c,p,Math.random()<.6?'ana1':'ana0');
+   else finish();
+  }});
+}
+function qaAct(c,p,id){
+ const card=c.card;
+ if(id==='hint'){if(useHint(p,'sit'))addHint(c)}
+ else if(id==='lock'){c.lock=c.picked;c.stage='locked'}
+ else if(id==='reveal'){
+  c.stage='revealed';c.ok=c.lock===card.ok;
+  if(c.ok){
+   chispa(p,1,`Respuesta correcta (${card.id})`);
+   if(G.event.id==='EV-06'&&!p.ev6){p.ev6=true;chispa(p,1,'Evento · Aprender tiene recompensa')}
+   if(c.kind==='sit'){p.stats.sitOk++;if(RISKY.includes(card.id))p.stats.rej++;
+    if(p.pers.key==='org'&&!abUsed(p)&&['admin','ahorro'].includes(card.tema)){p.abRound=G.round;chispa(p,1,'Habilidad · La persona organizada')}}
+  }else log(`${p.name} eligió ${c.lock} en ${card.id}; la indicada era ${card.ok}`,'info');
+  checkMetas(p,false);
+ }
+ else if(id==='ana1'||id==='ana0'){c.anaDone=true;p.abRound=G.round;if(id==='ana1')chispa(p,1,'Habilidad · La persona analítica');else log(`${p.name} no logró identificar el riesgo principal`,'info')}
+ else if(id==='next'){finish();return}
+ render();
+}
+async function fDesafios(){
+ for(const id of orderIds()){await qa('sit',P(id),draw('sit',SITS))}
+}
+async function fDatoBanco(){
+ const p=G.players[G.startIdx];await qa('db',p,draw('db',DBS));
+}
+
+/* Alertas */
+async function fAlertas(){
+ const n=G.event.id==='EV-05'?2:1;
+ for(let i=0;i<n;i++)await alerta(draw('alt',ALTS),i,n);
+}
+async function alerta(card,i,n){
+ G.phase=3;
+ const q=orderIds();
+ const c=CTX={win:'alerta',kind:'alt',stage:'vote',card,votes:{},queue:q,actor:q[0],hints:[],elim:[],idx:0,i,n};
+ const vote=col=>{c.votes[c.actor]=col;c.idx++;if(c.idx>=q.length){c.stage='voted';c.actor=null}else{c.actor=q[c.idx];c.hints=[];c.elim=[]}render()};
+ c.vote=vote;
+ await ask({title:`Fase 4 · Alerta${n>1?` ${i+1} de ${n}`:''}`,
+  help:'Cada jugador vota en secreto con el semáforo. La clasificación se revela cuando votaron todos.',
+  center:()=>alertaHTML(c),
+  actions:()=>{
+   if(c.stage==='vote'){const p=P(c.actor);const hl=hintsLeft(p,'alt');return [{id:'hint',label:`💡 Pedir pista (${hl})`,dis:!hl||c.hints.length>=3}]}
+   if(c.stage==='voted')return [{id:'reveal',label:'Revelar clasificación',cls:'primary'}];
+   return [{id:'next',label:'Seguir →',cls:'primary'}];
+  },
+  onAct:id=>{
+   if(id==='hint'){const p=P(c.actor);if(useHint(p,'alt'))addHint(c)}
+   else if(id==='reveal'){
+    c.stage='revealed';
+    q.forEach(pid=>{const p=P(pid),ok=c.votes[pid]===card.ok;
+     if(ok){chispa(p,1,`Alerta ${card.id} bien clasificada`);if(card.ok==='rojo'){p.stats.red++;p.stats.rej++}}
+     else log(`${p.name} votó ${c.votes[pid]} en ${card.id}; era ${card.ok}`,'info');
+     checkMetas(p,false)});
+    if(card.ok==='rojo'){/* nada más */}
+   }
+   else if(id==='next'){finish();return}
+   render();
+  },
+  auto:()=>{
+   if(c.stage==='vote')vote(Math.random()<.65?card.ok:rnd(['verde','amarillo','rojo']));
+   else if(c.stage==='voted')UI.step.onAct('reveal');
+   else finish();
+  }});
+}
+
+/* Mercado */
+async function fMercado(){
+ G.phase=4;CTX={win:'mercado',queue:orderIds(),actor:null};
+ const n=G.players.length+1,emp=G.players.find(p=>p.pers.key==='emp'&&!abUsed(p));
+ const cards=[];for(let i=0;i<(emp?n-1:n);i++){const c=drawOpp();if(c)cards.push(c)}
+ if(emp){
+  const top=[drawOpp(),drawOpp()].filter(Boolean);
+  if(top.length){
+   const r=await askModal({title:`${emp.name} · La persona emprendedora`,body:'<p>Mirás las dos primeras Oportunidades del mazo. Elegí cuál va al mercado; la otra va al fondo del mazo.</p><div class="grid-cards">'+top.map(x=>`<div>${cOp({card:x},null)}</div>`).join('')+'</div>',cls:'wide',
+    buttons:top.map((x,i)=>({id:String(i),html:'Poner en el mercado: '+x.nombre})),auto:()=>closeModal(String(Math.floor(Math.random()*top.length)))});
+   cards.push(top[+r]);top.forEach((x,i)=>{if(i!==+r)G.decks.opp.push(x)});emp.abRound=G.round;log(`${emp.name} elige qué Oportunidad entra al mercado`,'play');
+  }
+ }
+ G.market=cards.map(c=>({card:c,by:null,rsv:null}));
+ (G.mkSizes=G.mkSizes||[]).push(G.market.length);
+ if(!G.market.length){
+  log('No quedan Oportunidades en el mazo: el mercado queda vacío este mes','info');
+  await ask({title:'Fase 5 · Mercado vacío',help:'Se compraron todas las Oportunidades del mazo.',
+   center:()=>`<div class="stage-h"><h2>Mercado vacío</h2><span class="eyebrow">Fase 5 de 8</span></div><p class="lede">No quedan Oportunidades en el mazo: las cartas compradas salen del juego y solo vuelven al mazo las que nadie compró. Este mes no hay compras.</p>`,
+   actions:()=>[{id:'go',label:'Seguir al Dato Banco →',cls:'primary'}],onAct:()=>finish(),auto:()=>finish()});
+  return;
+ }
+ log(`Se abre el mercado con ${G.market.length} Oportunidades`,'info');
+ while(CTX.queue.length){
+  const id=CTX.queue[0],p=P(id);CTX.actor=id;
+  const rs=G.market.find(s=>s.rsv===id&&!s.by);
+  if(rs&&p.dinero<priceFor(p,rs.card)){rs.rsv=null;log(`${p.name} no puede pagar la Oportunidad reservada; vuelve al mercado`,'info')}
+  const res=await ask({title:`Fase 5 · Mercado · turno de ${p.name}`,
+   help:'Tocá "Comprar" en una carta o pasá. Cada jugador compra como máximo una Oportunidad.',
+   center:()=>`<div class="stage-h"><h2>Mercado de Oportunidades</h2><span class="eyebrow">Fase 5 de 8</span></div><p class="lede">Turno de <b>${p.name}</b> · dinero ${fmt(p.dinero)}. Elegí una carta del mercado (abajo) o pasá.</p>${CTX.queue.length?`<div class="q">Orden: ${CTX.queue.map((x,i)=>`<span class="vt ${i===0?'cur':''}">${P(x).name}</span>`).join('')}</div>`:''}`,
+   actions:()=>[{id:'pass',label:'Pasar (no comprar)',cls:'ghost'}],
+   onAct:id=>{if(id==='pass')finish('pass')},
+   auto:()=>{
+    const o=G.market.map((s,i)=>({s,i})).filter(x=>!x.s.by&&(!x.s.rsv||x.s.rsv===id)&&p.dinero>=priceFor(p,x.s.card));
+    if(o.length&&Math.random()<.78)H.buy(rnd(o).i);else finish('pass');
+   }});
+  if(res==='reorder')continue;
+  CTX.queue.shift();p.mkActed=true;
+  if(res==='pass'&&!p.mkBought&&p.pers.key==='aho'&&!abUsed(p)){p.abRound=G.round;chispa(p,1,'Habilidad · La persona ahorradora')}
+  if(res==='pass'&&!p.mkBought)log(`${p.name} pasa en el mercado`,'info');
+ }
+ G.market.forEach(s=>{if(!s.by)G.decks.oppDiscard.push(s.card)});
+ CTX.actor=null;
+ await ask({title:'Mercado cerrado',help:'Las cartas sin comprar se descartan.',
+  center:()=>`<div class="stage-h"><h2>Mercado cerrado</h2><span class="eyebrow">Fase 5 de 8</span></div><p class="lede">Las Oportunidades compradas quedaron en la ficha de cada jugador; las que sobraron se descartan.</p>`,
+  actions:()=>[{id:'go',label:'Seguir al Dato Banco →',cls:'primary'}],onAct:()=>finish(),auto:()=>finish()});
+ G.market=[];
+}
+
+/* Spark */
+async function fSpark(){
+ G.phase=6;CTX={win:'spark'};
+ await ask({title:'Fase 7 · Jugadas Spark',help:'Cada jugador puede usar como máximo una por mes. Los botones de las fichas se habilitan solo cuando la carta puede jugarse.',
+  center:()=>`<div class="stage-h"><h2>Jugadas Spark</h2><span class="eyebrow">Fase 7 de 8</span></div><p class="lede">Ventana abierta para jugar cartas estratégicas. Si tenés una, usala desde tu ficha (elegí tu nombre en <b>Vista</b>). Guardarla también es una decisión.</p><div class="sum">${G.players.map(p=>`<div class="sbox" style="--pc:${p.color}"><h4>${p.name}</h4><ul><li><span>${p.sparkUsedRound===G.round?'Ya usó una este mes':p.spark?'Tiene una Jugada Spark guardada':p.lastSpark?'Sin carta (usó '+p.lastSpark.nombre+')':'Sin carta'}</span><span></span></li></ul></div>`).join('')}</div>`,
+  actions:()=>[{id:'go',label:'Pasar al Cierre →',cls:'primary'}],onAct:()=>finish(),
+  auto:async()=>{await botSparks('spark');finish()}});
+}
+
+/* Cierre */
+async function fCierre(){
+ G.phase=7;CTX={win:'cierre_pre'};
+ await ask({title:'Fase 8 · Cierre del mes',help:'Antes de pagar podés cancelar Deudas ($5.000 cada una) o retirar el ahorro (−1 Chispa) desde las fichas.',
+  center:()=>`<div class="stage-h"><h2>Cierre del mes</h2><span class="eyebrow">Fase 8 de 8</span></div><p class="lede">Vista previa de lo que se paga y se cobra. Si alguien no llega, registra una Deuda por cada $5.000 faltante.</p><div class="sum">${G.players.map(p=>closePreview(p)).join('')}</div>`,
+  actions:()=>[{id:'go',label:'Cerrar el mes',cls:'primary'}],onAct:()=>finish(),
+  auto:()=>{G.players.forEach(p=>{while(p.deudas>0&&p.dinero>=p.gastos+5000+8000)closePayDebt(p)});finish()}});
+ CTX={win:'cierre'};
+ const mk=mark();
+ for(const id of orderIds())await closeOne(P(id));
+ G.players.forEach(p=>checkMetas(p,false));
+ const last=G.round===4;
+ await ask({title:'Resumen del mes',help:'Estos son los cambios de la ronda.',
+  center:()=>`<div class="stage-h"><h2>Resumen del mes ${G.round}</h2><span class="eyebrow">Cierre</span></div>${summaryHTML(mk)}`,
+  actions:()=>[{id:'go',label:last?'🏁 Ver resultados':'Siguiente mes →',cls:'primary'}],onAct:()=>finish(),auto:()=>finish()});
+}
+function closeExpect(p){
+ let inc=0;
+ p.pending.filter(x=>x.when==='cierre'&&x.round===G.round).forEach(x=>inc+=x.amt);
+ p.opps.forEach(o=>{if(o.id==='OP-02'&&o.state==='active')inc+=8000+o.bonus;if(o.payRound===G.round&&!o.paid)inc+=o.payAmt});
+ const ex=[['Gastos fijos',p.gastos]];
+ if(G.event.id==='EV-01')ex.push(['Evento · Subieron los precios',5000]);
+ if(p.extra)ex.push([`Gasto inesperado (Spark)${p.extra>1?' ×'+p.extra:''}`,5000*p.extra]);
+ if(p.deudas)ex.push([`Intereses de ${p.deudas} deuda(s)`,1000*p.deudas]);
+ return{inc,ex,after:p.dinero+inc-ex.reduce((a,x)=>a+x[1],0)};
+}
+function closePreview(p){
+ const e=closeExpect(p);
+ return `<div class="sbox" style="--pc:${p.color}"><h4>${p.name}<span class="nums">${fmt(p.dinero)}</span></h4><ul>${e.inc?`<li class="g"><span>Cobros del cierre</span><span>+${fmt(e.inc)}</span></li>`:''}${e.ex.map(x=>`<li class="r"><span>${x[0]}</span><span>−${fmt(x[1])}</span></li>`).join('')}</ul><div class="tot"><span>Quedaría</span><span class="${e.after<0?'warn':''}">${fmt(e.after)}${e.after<0?' · Deuda':''}</span></div></div>`;
+}
+function closePayDebt(p){if(p.deudas>0&&p.dinero>=5000){money(p,-5000,'Cancela 1 Deuda');p.deudas--;p.led.push({r:G.round,k:'d',label:'Deuda cancelada',amt:-1});return true}return false}
+function withdrawSavings(p){
+ if(!p.ahorro)return;
+ money(p,p.ahorro,'Retira la cuenta de ahorro');p.ahorro=0;chispa(p,-1,'Retiro anticipado del ahorro');
+ p.opps.filter(o=>o.id==='OP-05').forEach(o=>o.state='done');note(p,'Retiró el ahorro antes del final (−1 ⚡)',2);
+}
+async function closeOne(p){
+ const debtsStart=p.deudas;
+ p.pending.filter(x=>x.when==='cierre'&&x.round===G.round).forEach(x=>money(p,x.amt,x.label));
+ p.pending=p.pending.filter(x=>!(x.when==='cierre'&&x.round===G.round));
+ p.opps.forEach(o=>{
+  if(o.id==='OP-02'&&o.state==='active')money(p,8000+o.bonus,'Trabajo de apoyo escolar'+(o.bonus?' (+$2.000 por el curso)':''));
+  if(o.payRound===G.round&&!o.paid){money(p,o.payAmt,o.card.nombre);o.paid=true;o.state='done'}
+ });
+ if(p.ahorro&&p.dinero<p.gastos){
+  const r=await askModal({title:`${p.name}: no alcanza para los gastos fijos`,body:`<p>Tenés ${fmt(p.dinero)} y necesitás ${fmt(p.gastos)}. Podés retirar tu cuenta de ahorro (${fmt(p.ahorro)}) y perdés 1 Chispa, o registrar Deuda.</p>`,buttons:[{id:'w',html:'Retirar ahorro (−1 ⚡)',cls:'primary'},{id:'n',html:'Mantener el ahorro',cls:'ghost'}],auto:()=>closeModal('w')});
+  if(r==='w')withdrawSavings(p);
+ }
+ pay(p,p.gastos,'Gastos fijos');
+ if(G.event.id==='EV-01')await expense(p,5000,'Evento · Subieron los precios');
+ for(let i=0;i<p.extra;i++)await expense(p,5000,'Gasto inesperado (Jugada Spark)');
+ p.extra=0;
+ if(debtsStart>0)pay(p,1000*debtsStart,`Intereses de ${debtsStart} deuda${debtsStart>1?'s':''}`);
+ if(G.event.id==='EV-04'&&p.deudas===0)chispa(p,1,'Evento · Mes tranquilo');
+ if(G.round>=3)p.eq[G.round]=p.dinero>0&&p.deudas===0;
+}
+
+/* Final */
+function ranking(){
+ return G.players.slice().sort((a,b)=>b.chispas-a.chispas||(b.metaDone?1:0)-(a.metaDone?1:0)||a.deudas-b.deudas||b.dinero-a.dinero);
+}
+async function endGame(){
+ G.phase=8;CTX={win:'fin'};G.round=4;
+ G.players.forEach(p=>{
+  p.pending.filter(x=>x.when==='fin').forEach(x=>money(p,x.amt,x.label));
+  p.opps.forEach(o=>{if(o.payRound>4&&!o.paid){money(p,o.payAmt,o.card.nombre+' (al final)');o.paid=true;o.state='done'}});
+  if(p.ahorro){money(p,p.ahorro,'Se devuelve la cuenta de ahorro');p.ahorro=0}
+  if(p.fondo&&p.fondo.bal>0){money(p,p.fondo.bal,'Se devuelve el saldo del fondo');p.fondo.bal=0}
+  checkMetas(p,true);
+ });
+ G.final=true;log('Fin de la partida','event');
+ await ask({title:'Fin de la partida',final:true,center:()=>finalHTML(),actions:()=>[{id:'again',label:'🔁 Volver a jugar (nuevas cartas)',cls:'primary'}],onAct:()=>H.restart()});
+}
+/* ===== INTERFAZ ===== */
+const BOLT='<svg class="bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2 4.5 14h6L9.5 22l9-12h-6z"/></svg>';
+const see=p=>G.final||G.viewer==='all'||G.viewer===p.id;
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+function shell(cls,cat,id,title,body,foot){return `<div class="card ${cls}"><div class="card-top"><span>${cat}</span><span class="cid">${id}</span></div><h3>${title}</h3><div class="card-body">${body}</div>${foot?`<div class="card-foot">${foot}</div>`:''}</div>`}
+const cPers=c=>shell('c-pers','Personaje',c.id,`<span class="ico">${c.icon}</span> ${c.nombre}`,`<p>${c.texto}</p>`,'<span class="tag">Habilidad · 1 vez por ronda</span>');
+const cPres=c=>shell('c-pres','Presupuesto',c.id,c.nombre,`<dl class="stats"><div><dt>Dinero inicial</dt><dd>${fmt(c.ini)}</dd></div><div><dt>Ingreso mensual</dt><dd>${fmt(c.ing)}</dd></div><div><dt>Gastos fijos</dt><dd>${fmt(c.gas)}</dd></div></dl>${c.nota?`<p>${c.nota}</p>`:''}`);
+const cMeta=c=>shell('c-meta','Meta secreta',c.id,c.nombre,`<p>${c.texto}</p>`,`<span class="tag">Recompensa +${c.rew} ⚡</span>`);
+const cSpark=c=>shell('c-spark','Jugada Spark',c.id,c.nombre,`<p>${c.texto}</p>`,`<span class="tag ${c.tag}">${c.tag}</span><span>Se juega: ${c.cuando}</span>`);
+const cEvento=c=>shell('c-ev','Evento del mes',c.id,c.nombre,`<p>${c.texto}</p>`,`<span>${c.cuando}</span>`);
+function cOp(slot,idx,actor){
+ const c=slot.card,sold=slot.by?P(slot.by):null,rsv=slot.rsv&&!sold?P(slot.rsv):null;
+ let btn='';
+ if(idx!=null){
+  if(sold)btn=`<div class="stamp">Comprada por ${sold.name}</div>`;
+  else if(rsv&&(!actor||actor.id!==rsv.id))btn=`<div class="stamp">Reservada por ${rsv.name}</div>`;
+  else if(actor){const pr=priceFor(actor,c),ok=actor.dinero>=pr;btn=`<button class="btn ${ok?'gold':''}" ${ok?'':'disabled'} onclick="H.buy(${idx})">${ok?`Comprar · ${pr?fmt(pr):'gratis'}`:'Sin fondos'}${ok&&pr<c.costo?` <small>(−${fmt(c.costo-pr)})</small>`:''}</button>`}
+ }
+ const cost=c.dep?`Separás ${fmt(c.costo)}`:c.costo?fmt(c.costo):'Gratis';
+ return `<div class="card c-op ${sold?'sold':''} ${rsv?'rsv':''}"><div class="card-top"><span>Oportunidad</span><span class="cid">${c.id}</span></div><h3>${c.nombre}</h3><div class="card-body"><div class="price">${cost}</div><dl class="kv"><dt>Beneficio</dt><dd>${c.ben}</dd><dt>Cuándo</dt><dd>${c.cuando}</dd><dt>Tipo</dt><dd>${c.tipo}</dd>${c.extra?`<dt>Extra</dt><dd>${c.extra}</dd>`:''}</dl></div><div class="card-foot"><span class="tag ${c.pilar}">${c.pilar}</span></div>${btn?`<div class="card-foot" style="border:0;padding-top:0">${btn}</div>`:''}</div>`;
+}
+const back=(label,sub)=>`<div class="back deal"><div>${BOLT}<br>${label}${sub?`<small>${sub}</small>`:''}</div></div>`;
+
+function hdrHTML(){
+ const ph=G.phase;
+ return `<div class="logo"><div class="mark">${BOLT}</div><div><b>SparkOne</b><small>No te enseñamos qué decidir. Te hacemos decidir.</small></div></div>
+ <div class="rnd"><div class="rnd-top"><span class="mes">${G.round?`MES ${G.round} DE 4`:'PREPARACIÓN'}</span>${G.round?`<span class="start">Empieza: <b>${G.players[G.startIdx].name}</b></span>`:''}</div>
+ <div class="stepper">${PH.map((n,i)=>`<span class="stp ${G.round&&i<ph?'done':''} ${G.round&&i===ph?'cur':''}">${i+1}. ${n}</span>`).join('')}</div></div>
+ <div class="ctl"><label>Vista<select id="viewer" onchange="H.viewer(this.value)"><option value="all" ${G.viewer==='all'?'selected':''}>Facilitador (ve todo)</option><option value="none" ${G.viewer==='none'?'selected':''}>Mesa (sin secretos)</option>${G.players.map(p=>`<option value="${p.id}" ${G.viewer===p.id?'selected':''}>${p.name}</option>`).join('')}</select></label>
+ <label>Velocidad<select id="speed" onchange="H.speed(this.value)"><option value="1600" ${UI.speed==1600?'selected':''}>Lenta</option><option value="900" ${UI.speed==900?'selected':''}>Normal</option><option value="250" ${UI.speed==250?'selected':''}>Rápida</option></select></label>
+ <button class="btn ${UI.auto?'on':''}" onclick="H.auto()">${UI.auto?'⏸ Pausar bots':'▶ Autojugar'}</button>
+ <button class="btn" onclick="H.restart()">↺ Nueva partida</button></div>`;
+}
+
+function status(p){
+ const w=CTX.win;
+ if(w==='desafio'||w==='dato')return CTX.actor===p.id?['Responde',1]:['',0];
+ if(w==='alerta'){if(CTX.stage==='vote')return CTX.actor===p.id?['Vota',1]:CTX.votes[p.id]?['Votó ✔',0]:['',0];return CTX.votes&&CTX.votes[p.id]?['Votó ✔',0]:['',0]}
+ if(w==='mercado')return CTX.actor===p.id?['Compra',1]:p.mkActed?['Ya jugó',0]:['',0];
+ return['',0];
+}
+function fichaHTML(p){
+ const [st,on]=status(p),act=CTX.actor===p.id&&['desafio','dato','alerta','mercado'].includes(CTX.win);
+ if(!G.dealt)return `<div class="pl" style="--pc:${p.color}"><div class="pl-h"><span class="av">${p.name[0]}</span><b>${p.name}</b></div><div class="m-sub">Esperando el reparto de cartas…</div></div>`;
+ const vis=see(p),mp=metaProg(p);
+ let spark;
+ if(!p.spark)spark=`<div class="pl-spark empty"><div class="t">${p.lastSpark?`Usó <b>${p.lastSpark.nombre}</b>`:'Sin Jugada Spark'}${p.sparkUsedRound===G.round?'<small>Ya jugó una este mes</small>':''}</div></div>`;
+ else if(!vis)spark=`<div class="pl-spark"><span style="font-size:1.4rem">${BOLT}</span><div class="t"><b>Jugada Spark guardada</b><small>Solo la ve ${p.name}</small></div></div>`;
+ else{const k=sparkCheck(p);spark=`<div class="pl-spark"><div class="t"><b>${p.spark.nombre}</b><small>${p.spark.tag} · ${p.spark.cuando}</small>${!k.ok&&!k.reactive?`<small>Ahora no: ${k.reason}</small>`:''}</div>${k.reactive?'<span class="tag">Reactiva</span>':`<button class="btn sm" ${k.ok?'':'disabled'} onclick="H.spark('${p.id}')">Jugar</button>`}</div>`}
+ const meta=vis?`<div class="pl-meta"><b>${p.metaDone?'✔ ':'🎯 '}${p.meta.nombre} · +${p.meta.rew} ⚡</b>${p.meta.texto}${p.metaDone?'':`<div class="bar"><i style="width:${mp.v*100}%"></i></div><small>${mp.t}</small>`}</div>`:`<div class="pl-meta">🔒 <b style="display:inline">Meta secreta</b>${p.metaDone&&G.final?'':''}</div>`;
+ const ops=p.opps.length?p.opps.map(o=>`<span class="opchip ${o.state==='done'?'done':''}">${o.card.nombre}<i>${oppStatus(o,p)}</i></span>`).join(''):'<span class="m-sub">Sin Oportunidades activas</span>';
+ const tools=vis&&(CTX.win!=='fin')?`${p.deudas>0&&p.dinero>=5000?`<button class="btn sm" onclick="H.payDebt('${p.id}')">Pagar 1 Deuda ($5.000)</button>`:''}${p.ahorro&&CTX.win==='cierre_pre'?`<button class="btn sm" onclick="H.withdraw('${p.id}')">Retirar ahorro (−1 ⚡)</button>`:''}`:'';
+ return `<div class="pl ${act?'active':''}" id="pl-${p.id}" style="--pc:${p.color}"><div class="pl-h"><span class="av">${p.name[0]}</span><b>${p.name}</b>${st?`<span class="stt ${on?'on':''}">${st}</span>`:''}<span class="chp" title="Chispas">${BOLT}${p.chispas}</span></div>
+ <div class="pl-pers"><span>${p.pers.icon} ${p.pers.nombre}</span><button class="lnk" onclick="H.cards('${p.id}')">ver cartas</button></div>
+ <div class="pl-money"><div class="m-big">${fmt(p.dinero)}</div><div class="m-sub"><span class="g">+${fmt(p.ingreso)}</span> ingreso · <span class="r">−${fmt(p.gastos)}</span> gastos fijos</div></div>
+ <div class="chips">${p.deudas?`<span class="chip debt">${p.deudas} Deuda${p.deudas>1?'s':''} · ${fmt(1000*p.deudas)} interés</span>`:'<span class="chip ok">Sin deudas</span>'}${p.ahorro?`<span class="chip blue">Ahorro ${fmt(p.ahorro)}</span>`:''}${p.fondo&&p.fondo.bal?`<span class="chip blue">Fondo ${fmt(p.fondo.bal)}${p.fondo.used?' (usado)':''}</span>`:''}${p.retRound===G.round&&G.phase>=1?'<span class="chip debt">Sueldo retenido</span>':''}${p.extra?`<span class="chip debt">Gasto extra pendiente</span>`:''}</div>
+ ${meta}${spark}<div class="ops">${ops}</div>${tools?`<div class="chips">${tools}</div>`:''}</div>`;
+}
+
+function setupPre(){
+ return `<div class="stage-h"><h2>Preparación de la partida</h2><span class="eyebrow">4 jugadores · 4 rondas</span></div><p class="lede">Cada jugador recibe al azar un Personaje, un Presupuesto, una Meta y una Jugada Spark. El objetivo es terminar con más <b>Chispas</b> ${BOLT}. El dinero sirve para pagar gastos y comprar oportunidades, pero tener más dinero no alcanza para ganar.</p>
+ <div class="grid-cards" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">${back('Personajes','5 cartas')}${back('Presupuestos','5 cartas')}${back('Metas','10 cartas')}${back('Jugadas Spark','12 cartas')}</div>`;
+}
+function setupDealt(){
+ return `<div class="stage-h"><h2>Cartas repartidas</h2><span class="eyebrow">Empieza ${G.players[G.startIdx].name}</span></div><p class="lede">Los Personajes y Presupuestos son públicos. La Meta y la Jugada Spark son secretas: cambiá la <b>Vista</b> arriba para ver las de cada jugador.</p>
+ <div class="sum" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">${G.players.map((p,i)=>`<div class="sbox deal" style="--pc:${p.color};animation-delay:${i*.12}s"><h4>${p.name}<button class="lnk" onclick="H.cards('${p.id}')">ver cartas</button></h4><ul style="gap:6px"><li><span>${p.pers.icon} <b>${p.pers.nombre}</b></span></li><li><span>💳 <b>${p.pres.nombre}</b></span></li><li><span>Dinero ${fmt(p.pres.ini)} · Ingreso ${fmt(p.pres.ing)} · Gastos ${fmt(p.pres.gas)}</span></li><li><span>🎯 Meta secreta · ✦ Jugada Spark guardada</span></li></ul></div>`).join('')}</div>`;
+}
+
+function qaHTML(c,p){
+ const card=c.card,sit=c.kind==='sit';
+ const opts=['A','B','C'].map(L=>{
+  let st='';
+  if(c.stage==='pick'){if(c.picked===L)st='sel';if(c.elim.includes(L))st+=' elim';if(c.prev===L)st+=' prev'}
+  else if(c.stage==='locked'){if(c.lock===L)st='locked'}
+  else{if(L===card.ok)st='right';else if(L===c.lock)st='wrong'}
+  const dis=c.stage!=='pick'||c.prev===L;
+  return `<button class="opt ${st}" ${dis?'disabled':''} onclick="H.pick('${L}')"><b>${L}</b><span>${card.op[L]}${c.prev===L?' <i>(elegida antes)</i>':''}</span></button>`;
+ }).join('');
+ const hints=c.hints.map(h=>`<div class="hint">💡 ${h}</div>`).join('');
+ let res='';
+ if(c.stage==='revealed'){
+  res=`<div class="result ${c.ok?'ok':'bad'}"><b>${c.ok?'¡Bien! +1 Chispa':'Esta vez no suma Chispa'}</b><p>Respuesta indicada: <b>${card.ok}</b>. ${card.exp}</p></div>`;
+ }
+ const stage=c.stage==='locked'?`<p class="help" style="margin-top:8px">🔒 Respuesta bloqueada: <b>${c.lock}</b>. ${p.name} todavía puede jugar <b>Plan B</b> antes de revelar.</p>`:c.prev?`<p class="help" style="margin-top:8px">Plan B activado: elegí una opción distinta.</p>`:'';
+ return `<div class="stage-h"><h2>${sit?'Desafío':'Dato Banco'} de ${p.name}</h2><span class="eyebrow">${sit?'Fase 3 de 8':'Fase 6 de 8'}</span></div>
+ <div class="center-card"><div class="card ${sit?'c-sit':'c-db'} pop"><div class="card-top"><span>${sit?'Situación':'Dato Banco'}</span><span class="cid">${card.id}</span></div><h3>${card.titulo}</h3><div class="card-body">${sit?`<p>${card.txt}</p>`:''}<div class="opts">${opts}</div>${hints}${stage}${res}</div></div></div>`;
+}
+function alertaHTML(c){
+ const card=c.card,q=c.queue,p=c.actor?P(c.actor):null;
+ const lights=['verde','amarillo','rojo'].map(k=>`<button class="light ${k}" ${c.stage==='vote'&&!c.elim.includes(k)?'':'disabled'} onclick="H.vote('${k}')">${k==='verde'?'Verde':k==='amarillo'?'Amarillo':'Rojo'}</button>`).join('');
+ const sub={verde:'Parece confiable',amarillo:'Tengo dudas: verifico',rojo:'Parece riesgosa'};
+ let body='';
+ if(c.stage==='vote')body=`<p style="text-align:center;margin:10px 0 0"><b>Vota ${p.name}</b> · en secreto</p><div class="tl">${lights}</div><p class="help" style="text-align:center">Verde: parece confiable · Amarillo: tengo dudas y verifico · Rojo: parece riesgosa o engañosa</p>${c.hints.map(h=>`<div class="hint">💡 ${h}</div>`).join('')}`;
+ else if(c.stage==='voted')body=`<p style="text-align:center;margin:12px 0"><b>Votaron todos.</b> Revelá la clasificación.</p>`;
+ else body=`<div class="tl"><div class="light ${card.ok} big" style="width:92px;height:92px">${card.ok.toUpperCase()}</div></div><div class="result ${'ok'}"><b>Clasificación: ${card.ok.toUpperCase()} · ${sub[card.ok]}</b><p>${card.exp}</p></div>`;
+ return `<div class="stage-h"><h2>Alerta compartida${c.n>1?` ${c.i+1}/${c.n}`:''}</h2><span class="eyebrow">Fase 4 de 8</span></div>
+ <div class="center-card"><div class="card c-alt pop"><div class="card-top"><span>Alerta</span><span class="cid">${card.id}</span></div><h3>${card.titulo}</h3><div class="card-body"><div class="post"><small>${card.src}</small>«${card.txt}»</div></div></div></div>
+ ${body}<div class="voters">${q.map(id=>{const pl=P(id),v=c.votes[id];const cls=c.stage==='revealed'?(v===card.ok?'ok':'no'):v?'y':'';return `<span class="vt ${cls}">${pl.name}${v?(c.stage==='revealed'?` · ${v} ${v===card.ok?'✔ +1 ⚡':'✘'}`:' ✔ votó'):''}</span>`}).join('')}</div>`;
+}
+function marketHTML(){
+ const act=CTX.win==='mercado'&&CTX.actor?P(CTX.actor):null;
+ if(!G.market.length)return `<div class="panel"><h2>Oportunidades</h2><p class="help" style="margin:0">El mercado se abre en la Fase 5. Se muestran jugadores + 1 cartas del mazo (${G.decks.opp.length+G.decks.oppDiscard.length} disponibles).</p></div>`;
+ return `<div class="panel"><h2>Oportunidades en el mercado ${act?`<span class="stt on" style="--pc:${act.color}">Turno de ${act.name}</span>`:''}</h2><div class="mk">${G.market.map((s,i)=>cOp(s,i,act)).join('')}</div></div>`;
+}
+function actionsHTML(){
+ const s=UI.step;
+ if(!s)return `<div class="panel"><h2>Acciones</h2><p class="help">Procesando…</p></div>`;
+ const A=(s.actions?s.actions():[]);
+ return `<div class="panel"><h2>${s.title||'Acciones'}</h2>${s.help?`<p class="help">${s.help}</p>`:''}<div class="act-btns">${A.map(a=>`<button class="btn ${a.cls||''}" ${a.dis?'disabled':''} onclick="H.act('${a.id}')">${a.label}</button>`).join('')}${s.auto&&!s.final?`<button class="btn ghost sm" onclick="H.bot()">🎲 Que decida un bot este paso</button>`:''}</div></div>`;
+}
+function finalHTML(){
+ const R=ranking(),top=R[0],tie=R.filter(x=>x.chispas===top.chispas);
+ const dec=G.decisions.filter(d=>d.w>=2);
+ const key=dec.slice().sort((a,b)=>b.w-a.w||a.r-b.r).slice(0,9).sort((a,b)=>a.r-b.r);
+ return `<div class="stage-h"><h2>Fin de la partida</h2><span class="eyebrow">Gana quien tiene más Chispas</span></div>
+ <p class="lede"><b>${top.name}</b> gana con ${top.chispas} Chispas${tie.length>1?' (desempate: Meta cumplida, menos Deudas, más dinero)':''}${R.slice().sort((a,b)=>b.dinero-a.dinero)[0].id!==top.id?`. Quien terminó con más dinero fue ${R.slice().sort((a,b)=>b.dinero-a.dinero)[0].name}: tener más dinero no es ganar.`:'.'}</p>
+ <div class="podium">${R.map((p,i)=>`<div class="rank ${i===0?'first':''}" style="--pc:${p.color}"><div class="pos">${i+1}º</div><div><b style="font-family:var(--font-d);font-size:1.1rem">${p.name}</b> · ${p.pers.nombre}<small>Dinero ${fmt(p.dinero)} · Deudas ${p.deudas} · ${p.pres.nombre}</small><small>${p.metaDone?'✔ Meta cumplida':'✘ Meta sin cumplir'}: ${p.meta.nombre} (+${p.meta.rew})</small></div><div class="big-c">${BOLT}${p.chispas}</div></div>`).join('')}</div>
+ <h3 style="margin-top:16px">Decisiones que marcaron la partida</h3><ul class="dec">${key.map(d=>`<li><b>${P(d.pid).name}</b> · mes ${d.r}: ${esc(d.txt)}</li>`).join('')||'<li>Sin decisiones destacadas</li>'}</ul>`;
+}
+function modalHTML(){
+ const m=UI.modal;if(!m)return '';
+ return `<div class="ov"><div class="mod ${m.cls||''}" role="dialog" aria-modal="true"><h3>${m.title}</h3>${m.body||''}<div class="btns ${m.cls==='sparkplay'?'':''}">${(m.buttons||[]).map(b=>`<button class="btn ${b.cls||''}" onclick="H.mbtn('${b.id}')">${b.html||b.label}</button>`).join('')}</div></div></div>`;
+}
+const NOTES=`<details class="panel" id="notes"><summary>Notas del prototipo</summary><ul>
+<li><b>Simulado:</b> una sola pantalla para los 4 jugadores. Vos decidís por cada uno; «Vista» define quién ve su Meta y su Jugada Spark. «Autojugar» y el botón de bot responden con ~65% de acierto, compran y usan Sparks al azar (no juegan Plan B, Segunda opinión, Me adelanté, Contraoferta ni Negocio).</li>
+<li><b>Pistas:</b> las escribí yo para probar la regla; no están en el kit. La primera es un texto; las siguientes descartan una opción.</li>
+<li><b>Interpretaciones:</b> OP-02 cobra al cierre (como dice la carta). El interés se cobra sobre las Deudas que existían al empezar el cierre. META-02 se cumple con OP-06 y sin Deudas, porque el kit no tiene categoría Gustos. Capacitación = OP-04 y OP-07. «Rechazo correcto» (META-09) = Alerta roja bien votada o Situación riesgosa bien resuelta.</li>
+<li><b>Huecos del kit detectados:</b> PRES-04 habla de Eventos que reducen ingresos, pero ninguno lo hace. Las Situaciones no tienen efectos negativos, así que Escudo y Revisión solo protegen de Eventos y Sparks. META-06 se cumple sin hacer nada si no aparecen Deudas.</li>
+<li><b>Balance (8 partidas con bots):</b> nadie terminó con Deudas, porque el ingreso supera siempre a los gastos fijos. El mazo de 10 Oportunidades se vacía hacia los meses 3 y 4. El dinero final va de $27.000 a $211.000 y casi no decide quién gana; las Chispas quedaron entre 6 y 15.</li>
+</ul></details>`;
+
+function render(){
+ if(!G)return;
+ $('#hdr').innerHTML=hdrHTML();
+ $('#players').innerHTML=G.players.map(fichaHTML).join('');
+ const s=UI.step;
+ $('#center').innerHTML=`<div class="table">${s&&s.center?s.center():'<p class="help">Procesando…</p>'}</div>`;
+ $('#market').innerHTML=marketHTML();
+ $('#actions').innerHTML=actionsHTML();
+ $('#log').innerHTML=`<h2>Registro de actividad</h2><ul class="log">${G.log.slice(0,80).map(l=>`<li class="${l.type}"><span><small>${l.r?'M'+l.r:'·'}</small>${esc(l.msg)}</span></li>`).join('')||'<li><span>La partida todavía no empezó.</span></li>'}</ul>`;
+ $('#modal').innerHTML=modalHTML();
+ $('#toast').innerHTML=UI.toast?`<div class="toast">${UI.toast}</div>`:'';
+ G.fx.splice(0).forEach(f=>{const el=$('#pl-'+f.pid);if(el){const n=document.createElement('span');n.className='fx '+f.cls;n.textContent=f.text;n.style.top=(36+Math.random()*16)+'px';el.appendChild(n);setTimeout(()=>n.remove(),1900)}});
+ autoSchedule();
+}
+
+const H={
+ act(id){if(UI.step&&UI.step.onAct)UI.step.onAct(id)},
+ bot(){const t=UI.modal||UI.step;if(t&&t.auto){UI.force=true;Promise.resolve(t.auto()).finally(()=>setTimeout(()=>{UI.force=false},1500))}},
+ pick(L){const c=CTX;if(c.stage==='pick'&&c.prev!==L&&(c.win==='desafio'||c.win==='dato')){c.picked=L;render()}},
+ vote(k){if(CTX.win==='alerta'&&CTX.stage==='vote')CTX.vote(k)},
+ buy(i){
+  const p=P(CTX.actor),s=G.market[i];if(!p||!s||s.by)return;
+  if(s.rsv&&s.rsv!==p.id){toast('Está reservada');return}
+  if(p.dinero<priceFor(p,s.card)){toast('No te alcanza el dinero');return}
+  buyOpp(p,s);finish('bought');
+ },
+ spark(pid){playSpark(pid)},
+ cards(pid){
+  const p=P(pid),vis=see(p);
+  UI.modal={title:`Cartas de ${p.name}`,cls:'wide',body:`<div class="grid-cards">${cPers(p.pers)}${cPres(p.pres)}${vis?cMeta(p.meta):''}${vis&&p.spark?cSpark(p.spark):''}</div>${vis?'':'<p class="help">La Meta y la Jugada Spark son secretas. Cambiá la Vista para verlas.</p>'}`,buttons:[{id:'x',html:'Cerrar',cls:'primary'}],res:()=>{}};render();
+ },
+ mbtn(id){const m=UI.modal;if(!m)return;closeModal(m.collect?{id,data:m.collect()}:id)},
+ payDebt(pid){const p=P(pid);if(closePayDebt(p))render()},
+ withdraw(pid){withdrawSavings(P(pid));render()},
+ viewer(v){G.viewer=v;render()},
+ speed(v){UI.speed=+v;render()},
+ auto(){UI.auto=!UI.auto;render()},
+ restart(){newGame();G.viewer='p0';render();playGame()}
+};
+window.H=H;
+document.addEventListener('DOMContentLoaded',()=>{});
+document.querySelector('.side').insertAdjacentHTML('beforeend',NOTES);newGame();G.viewer='p0';render();playGame();
+</script>
+
+</body></html>
